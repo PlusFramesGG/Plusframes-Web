@@ -1,31 +1,31 @@
-import { withClerkMiddleware, getAuth } from '@clerk/nextjs/server'
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { authMiddleware, redirectToSignIn } from "@clerk/nextjs";
+import { NextRequest, NextResponse } from "next/server";
 
-// SETUP TODO: Update with public paths
-const publicPaths = ['/', '/auth/sign-in', '/auth/sign-up']
-
-const isPublic = (path: string) => {
-	return publicPaths.includes(path)
+const beforeAuthMiddleware = (req: NextRequest) => {
+	console.log(`Before auth fired`)
 }
 
-export default withClerkMiddleware((request: NextRequest) => {
-	if (process.env.NODE_ENV === 'development') {
-		return NextResponse.next()
+export default authMiddleware({
+	publicRoutes: ['/'],
+	beforeAuth: (req) => {
+		// Execute next-intl middleware before Clerk's auth middleware
+		return beforeAuthMiddleware(req)
+	},
+	afterAuth(auth, req, evt) {
+		console.log(`User ID: ${auth.userId ?? 'none'}`)
+
+		if (!auth.userId && !auth.isPublicRoute) {
+		  return redirectToSignIn({ returnBackUrl: req.url });
+		}
+		
+		// TODO: Change this redirect to their dashboard eventually
+		if(auth.userId) {
+		  const comboBuilder = new URL('/combo-builder', req.url)
+		  return NextResponse.redirect(comboBuilder)
+		}
 	}
+});
 
-	if (isPublic(request.nextUrl.pathname)) {
-		return NextResponse.next()
-	}
-
-	const { userId } = getAuth(request)
-
-	if (!userId) {
-		const signInUrl = new URL('/auth/sign-in', request.url)
-		signInUrl.searchParams.set('redirect_url', request.url)
-		return NextResponse.redirect(signInUrl)
-	}
-	return NextResponse.next()
-})
-
-export const config = { matcher: '/((?!_next/image|_next/static|favicon.ico|.*.svg).*)' }
+export const config = {
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+}

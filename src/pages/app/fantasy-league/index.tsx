@@ -1,0 +1,11 @@
+import React from 'react'
+
+const FantasyLeaguePage = () => {
+	return (
+		<div>
+			<h1>Combo Builder Home Page goes here</h1>
+		</div>
+	)
+}
+
+export default FantasyLeaguePage

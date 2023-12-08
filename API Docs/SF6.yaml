@@ -1,0 +1,263 @@
+openapi: 3.0.0
+info:
+ title: SF6 Data Service API
+ version: 1.0.0
+servers:
+ - url: http://54.177.50.102:5000/
+   description: Base URL for the ComboRoutes API
+paths:
+ /api/combo_routes/{move_id}:
+  get:
+   tags:
+    - Combo Routes
+   summary: Retrieve combo routes based on move ID
+   parameters:
+    - in: path
+      name: move_id
+      required: true
+      schema:
+       type: integer
+      description: ID of the move
+    - in: query
+      name: driveMin
+      schema:
+       type: integer
+      description: Minimum drive range
+    - in: query
+      name: driveMax
+      schema:
+       type: integer
+      description: Maximum drive range
+    - in: query
+      name: superMin
+      schema:
+       type: integer
+      description: Minimum super range
+    - in: query
+      name: superMax
+      schema:
+       type: integer
+      description: Maximum super range
+    - in: query
+      name: linkFilter[]
+      schema:
+       type: array
+       items:
+        type: string
+      description: Filter for links
+   responses:
+    '200':
+     description: Successful response
+     content:
+      application/json:
+       schema:
+        type: array
+        items:
+         $ref: '#/components/schemas/Combo'
+
+ /api/combo_usage/{combo_id}:
+  get:
+   tags:
+    - Combo Usage
+   summary: Get information about a specific combo and its usage
+   parameters:
+    - in: path
+      name: combo_id
+      required: true
+      schema:
+       type: integer
+      description: ID of the combo
+   responses:
+    '200':
+     description: Successful response
+     content:
+      application/json:
+       schema:
+        $ref: '#/components/schemas/ComboUsage'
+    '404':
+     description: Combo not found
+
+ /api/combo_routes/starters/{character_id}:
+  get:
+   tags:
+    - Combo Starters
+   summary: Retrieve combo starters for a specific character
+   parameters:
+    - in: path
+      name: character_id
+      required: true
+      schema:
+       type: integer
+      description: ID of the character
+   responses:
+    '200':
+     description: Successful response
+     content:
+      application/json:
+       schema:
+        type: array
+        items:
+         $ref: '#/components/schemas/Move'
+ /api/characters:
+  get:
+   tags:
+    - Characters
+   summary: Retrieve a list of characters
+   responses:
+    '200':
+     description: Successful response
+     content:
+      application/json:
+       schema:
+        type: array
+        items:
+         $ref: '#/components/schemas/Character'
+
+ /api/moves/{character_id}:
+  get:
+   tags:
+    - Character Moves
+   summary: Get moves for a specific character
+   parameters:
+    - in: path
+      name: character_id
+      required: true
+      schema:
+       type: integer
+      description: ID of the character
+   responses:
+    '200':
+     description: Successful response
+    '404':
+     description: Character not found
+components:
+ schemas:
+  Character:
+   type: object
+   properties:
+    id:
+     type: number
+     description: The unique identifier for a character
+    name:
+     type: string
+     description: The name of the character
+    sf6_character_id:
+     type: number
+     description: The character ID in SF6
+  Move:
+   type: object
+   properties:
+    id:
+     type: number
+     description: The unique identifier for a move
+    name:
+     type: string
+     description: The name of the move
+    damage:
+     type: number
+     nullable: true
+     description: The damage of the move, null if not applicable
+    active:
+     type: number
+     nullable: true
+     description: The active frames of the move, null if not applicable
+    on_block:
+     type: number
+     nullable: true
+     description: The effect on block, null if not applicable
+    on_hit:
+     type: number
+     nullable: true
+     description: The effect on hit, null if not applicable
+    recovery:
+     type: number
+     nullable: true
+     description: The recovery time of the move, null if not applicable
+    startup:
+     type: number
+     nullable: true
+     description: The startup time of the move, null if not applicable
+  ComboMove:
+   type: object
+   properties:
+    id:
+     type: number
+     description: The unique identifier for move
+    name:
+     type: string
+     description: The name of the move
+  Combo:
+   type: object
+   properties:
+    character_id:
+     type: number
+     description: The unique identifier for the character
+    id:
+     type: number
+     description: The unique identifier for the combo
+    link:
+     type: string
+     description: Link associated with the combo
+    gap:
+     type: number
+     description: Gap in the combo
+    count:
+     type: number
+     description: Count of moves in the combo
+    usage:
+     type: number
+     description: Usage rating of the combo
+    drive:
+     type: number
+     description: Drive value of the combo
+    super:
+     type: number
+     description: Super value of the combo
+    min_damage:
+     type: number
+     description: Minimum damage of the combo
+    avg_damage:
+     type: number
+     description: Average damage of the combo
+    max_damage:
+     type: number
+     description: Maximum damage of the combo
+    moves:
+     type: array
+     items:
+      $ref: '#/components/schemas/ComboMove'
+     description: List of moves in the combo
+  ComboUsage:
+   type: object
+   properties:
+    combo:
+     $ref: '#/components/schemas/Combo'
+    usage:
+     type: array
+     items:
+      type: object
+      properties:
+       id:
+        type: number
+        description: Unique identifier for the usage instance
+       cfn_id:
+        type: string
+        description: CFN identifier
+       player_one_name:
+        type: string
+        description: Name of player one
+       player_two_name:
+        type: string
+        description: Name of player two
+       character_one_name:
+        type: string
+        description: Name of character one
+       character_two_name:
+        type: string
+        description: Name of character two
+       round_time:
+        type: number
+        description: Time of the round
+       round_number:
+        type: number
+        description: Number of the round

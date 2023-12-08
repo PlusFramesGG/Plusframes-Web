@@ -20,9 +20,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Language - TypeScript
 - Framework - NextJS
 - Front-End Library - React 
-- Styles - Tailwind
+- Styles - Tailwind w/ DaisyUI
 - Authentication - Clerk
 - CI/CD - Vercel
+- Linting - Prettier & Eslint
+
+## Recommended Extensions & Tools
 
 ## Working in the Repo
+- TBA
+
+## Further Reading
 - TBA
