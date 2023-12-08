@@ -7,11 +7,11 @@ import {
 	DocumentResponses,
 	GeneralAPIResponses,
 	PFUser,
-	TypedRequest,
 	TypedResponse
 } from '@/shared/types'
-import { collection, doc, getDoc, getDocs, getFirestore, query, where } from 'firebase/firestore'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { currentUser } from '@clerk/nextjs'
+import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore'
+import { NextApiRequest } from 'next'
 
 const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
 	const { method } = req
@@ -19,10 +19,21 @@ const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
 
 	if (!id) {
 		console.error('e', GeneralAPIResponses.INVALID_REQUEST_TYPE)
-		res.status(400).json({
+		return res.status(400).json({
 			status: APIStatuses.ERROR,
 			type: GeneralAPIResponses.INVALID_REQUEST_TYPE,
 			data: { error: `No clerk id passed to request.` }
+		})
+	}
+
+	const user = await currentUser()
+
+	if (!user) {
+		console.error('e', GeneralAPIResponses.UNAUTHORIZED)
+		return res.status(400).json({
+			status: APIStatuses.ERROR,
+			type: GeneralAPIResponses.UNAUTHORIZED,
+			data: { error: `Client is not authenticated.` }
 		})
 	}
 
@@ -44,7 +55,7 @@ const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
 
 			const user = querySnapshot.docs[0].data() as PFUser
 
-			res.status(200).json({
+			return res.status(200).json({
 				status: APIStatuses.SUCCESS,
 				type: DocumentResponses.DATA_FOUND,
 				data: { user: { ...user, id: querySnapshot.docs[0].id } }

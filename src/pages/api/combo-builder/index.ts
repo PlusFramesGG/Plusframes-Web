@@ -6,5 +6,6 @@ type APIResponseData = {
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<APIResponseData>) {
-	res.status(200).json({ name: 'John Doe' })
+	switch (req.method) {
+	}
 }

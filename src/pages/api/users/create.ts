@@ -28,7 +28,7 @@ const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
 
 		if (!user) {
 			console.error('e', GeneralAPIResponses.UNAUTHORIZED)
-			res.status(400).json({
+			return res.status(400).json({
 				status: APIStatuses.ERROR,
 				type: GeneralAPIResponses.UNAUTHORIZED,
 				data: { error: `Client is not authenticated.` }
@@ -41,14 +41,14 @@ const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
 		const newUser: PFUser = { id: documentRef.id, role: UserRoles.USER, ...body }
 
 		if (documentRef.id) {
-			res.status(201).json({
+			return res.status(201).json({
 				status: APIStatuses.SUCCESS,
 				type: DocumentResponses.DATA_CREATED,
 				data: { user: newUser }
 			})
 		} else {
 			console.error('e', DocumentResponses.DATA_NOT_CREATED)
-			res.status(400).json({
+			return res.status(400).json({
 				status: APIStatuses.ERROR,
 				type: DocumentResponses.DATA_NOT_CREATED,
 				data: { error: 'Could not create user' }
