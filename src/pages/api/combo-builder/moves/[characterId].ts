@@ -1,17 +1,11 @@
-import {
-	APIMethods,
-	APIStatuses,
-	Games,
-	GeneralAPIResponses,
-	Move,
-	TypedResponse,
-	gameUrlMappings
-} from '@/shared/types'
+import { gameUrlMappings } from '@/shared/constants'
+import { APIMethods, APIStatuses, Games, GeneralAPIResponses, Move, TypedResponse } from '@/shared/types'
+import { fetchMovesByCharacterId } from '@/shared/utils'
 import { NextApiRequest } from 'next'
 
 const handler = async (req: NextApiRequest, res: TypedResponse<Record<string, Move[]>>) => {
 	const { method, body } = req
-	const { characterId } = req.query
+	const characterId = req.query.characterId as string
 	const game: Games = body.game ?? Games.SF6
 
 	if (!characterId) {
@@ -24,14 +18,13 @@ const handler = async (req: NextApiRequest, res: TypedResponse<Record<string, Mo
 	}
 
 	if (method === APIMethods.GET) {
-		const apiResponse = await fetch(`${gameUrlMappings[game]}/combo_routes/starters/${characterId}`)
-		if (!apiResponse.ok) throw new Error('API response failed')
-
-		const apiResponseData = await apiResponse.json()
-		if (!apiResponseData || !apiResponseData.length)
-			throw new Error('No data found for the get moves by character id endpoint')
-
-		return res.status(200).json({ moves: apiResponseData })
+		try {
+			const apiResponseData = await fetchMovesByCharacterId(characterId, game)
+			return res.status(200).json({ moves: apiResponseData })
+		} catch (e) {
+			console.error('e', e)
+			return res.status(400).json({ status: APIStatuses.ERROR, type: GeneralAPIResponses.FAILURE, data: { error: e } })
+		}
 	} else {
 		return res.status(404).json({ status: APIStatuses.ERROR, type: GeneralAPIResponses.INVALID_REQUEST_TYPE })
 	}

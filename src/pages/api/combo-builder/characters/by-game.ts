@@ -1,12 +1,5 @@
-import {
-	TypedResponse,
-	APIMethods,
-	APIStatuses,
-	GeneralAPIResponses,
-	Character,
-	Games,
-	gameUrlMappings
-} from '@/shared/types'
+import { TypedResponse, APIMethods, APIStatuses, GeneralAPIResponses, Character, Games } from '@/shared/types'
+import { fetchCharactersByGame } from '@/shared/utils'
 import { NextApiRequest } from 'next'
 
 const handler = async (req: NextApiRequest, res: TypedResponse<Record<string, Character[]>>) => {
@@ -15,12 +8,7 @@ const handler = async (req: NextApiRequest, res: TypedResponse<Record<string, Ch
 
 	if (method === APIMethods.GET) {
 		try {
-			const apiResponse = await fetch(`${gameUrlMappings[game]}/characters`)
-			if (!apiResponse.ok) throw new Error('API response failed')
-
-			const apiResponseData = (await apiResponse.json()) as Character[]
-			if (!apiResponseData || !apiResponseData.length) throw new Error('No data found for get all characters endpoint')
-
+			const apiResponseData = await fetchCharactersByGame(game)
 			return res.status(200).json({ characters: apiResponseData })
 		} catch (e) {
 			console.error('e', e)
