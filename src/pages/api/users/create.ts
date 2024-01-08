@@ -59,3 +59,5 @@ const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
 		return res.status(400).json({ status: APIStatuses.ERROR, type: GeneralAPIResponses.FAILURE, data: { error: e } })
 	}
 }
+
+export default handler
