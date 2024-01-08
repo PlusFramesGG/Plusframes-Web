@@ -42,3 +42,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Further Reading
 
 - TBA
+
+## API Usage
+
+- This repo contains a BFF layer that has a set of API routes we use to reach out to our other services.
+- You can find full documentation on our API [here](./Docs/API%20Documentation.md)
