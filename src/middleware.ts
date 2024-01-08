@@ -2,7 +2,7 @@ import { authMiddleware, redirectToSignIn } from '@clerk/nextjs'
 import { NextRequest, NextResponse } from 'next/server'
 
 const beforeAuthMiddleware = (req: NextRequest) => {
-	console.log(`Before auth fired`)
+	// TODO: Wire up
 }
 
 export default authMiddleware({
@@ -13,9 +13,11 @@ export default authMiddleware({
 		return beforeAuthMiddleware(req)
 	},
 	afterAuth(auth, req, evt) {
-		console.log(`User ID: ${auth.userId ?? 'none'}`)
+		console.log('process.env.NODE_EVN', process.env.NODE_ENV)
+		// console.log(`User ID: ${auth.userId ?? 'none'}`)
 
 		if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
+			console.log('here')
 			if (!auth.userId && !auth.isPublicRoute) {
 				return redirectToSignIn({ returnBackUrl: req.url })
 			}

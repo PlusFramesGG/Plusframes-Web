@@ -3,7 +3,8 @@ import type { NextApiRequest, NextApiResponse } from 'next/types'
 // Enums
 export enum APIStatuses {
 	SUCCESS = 'SUCCESS',
-	ERROR = 'ERROR'
+	ERROR = 'ERROR',
+	FAILURE = 'FAILURE'
 }
 
 export enum APIMethods {
@@ -17,7 +18,8 @@ export enum APIMethods {
 export enum GeneralAPIResponses {
 	FAILURE = 'FAILURE',
 	INVALID_REQUEST_TYPE = 'INVALID_REQUEST_TYPE',
-	UNAUTHORIZED = 'UNAUTHORIZED'
+	UNAUTHORIZED = 'UNAUTHORIZED',
+	NOT_FOUND = 'NOT_FOUND'
 }
 
 export enum Games {

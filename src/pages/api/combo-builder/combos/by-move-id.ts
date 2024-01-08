@@ -11,7 +11,7 @@ const handler = async (req: NextApiRequest, res: TypedResponse<Record<string, Co
 		console.error('e', GeneralAPIResponses.FAILURE)
 		return res.status(400).json({
 			status: APIStatuses.ERROR,
-			type: GeneralAPIResponses.FAILURE,
+			type: GeneralAPIResponses.INVALID_REQUEST_TYPE,
 			data: { error: `Move ID not provided.` }
 		})
 	}
@@ -20,13 +20,17 @@ const handler = async (req: NextApiRequest, res: TypedResponse<Record<string, Co
 		try {
 			// TODO: Implement filtering here
 			const apiResponseData = await fetchCombosByMoveId(moveId, game)
-			return res.status(200).json({ combos: apiResponseData })
+			if (apiResponseData.length) {
+				return res.status(200).json({ combos: apiResponseData })
+			} else {
+				return res.status(404).json({ status: APIStatuses.FAILURE, type: GeneralAPIResponses.NOT_FOUND })
+			}
 		} catch (e) {
 			console.error('e', e)
 			return res.status(400).json({ status: APIStatuses.ERROR, type: GeneralAPIResponses.FAILURE, data: { error: e } })
 		}
 	} else {
-		return res.status(404).json({ status: APIStatuses.ERROR, type: GeneralAPIResponses.INVALID_REQUEST_TYPE })
+		return res.status(400).json({ status: APIStatuses.ERROR, type: GeneralAPIResponses.INVALID_REQUEST_TYPE })
 	}
 }
 
