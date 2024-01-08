@@ -9,7 +9,7 @@ import {
 	TypedResponse
 } from '@/shared/types'
 import { currentUser } from '@clerk/nextjs'
-import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, updateDoc, where } from 'firebase/firestore'
+import { collection, deleteDoc, getDoc, getDocs, getFirestore, query, updateDoc, where } from 'firebase/firestore'
 import { NextApiRequest } from 'next'
 
 // TODO: Long term we want to add payload shape verification

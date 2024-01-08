@@ -4,7 +4,7 @@ import { UserButton } from '@clerk/nextjs'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+export default function LandingPage() {
 	return (
 		<>
 			<header>

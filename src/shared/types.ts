@@ -53,6 +53,11 @@ export enum UserRoles {
 	USER = 'User'
 }
 
+// TODO: Get keys for other notation types
+export enum MoveNotationTypes {
+	NUMBER_COMMAND = 'number_command'
+}
+
 // Interfaces
 export interface TypedRequest<T> extends NextApiRequest {
 	body: T
@@ -72,4 +77,90 @@ export type PFUser = {
 	firstName: string
 	lastName: string
 	username: string
+}
+
+export interface Character {
+	id: number
+	name: string
+	sf6_character_id: number
+}
+
+export interface Move {
+	id: number
+	name: string
+	damage: null | number
+	active: null | number
+	on_block: null | number
+	on_hit: null | number
+	recovery: null | number
+	startup: null | number
+}
+
+export interface Combo {
+	character_id: number
+	id: number
+	link: string
+	gap: number
+	count: number
+	usage: number
+	drive: number
+	super: number
+	min_damage: number
+	avg_damage: number
+	max_damage: number
+	moves: Move[]
+}
+
+export interface ComboFilter {
+	driveMin: number
+	driveMax: number
+	superMin: number
+	superMax: number
+	showNormal: boolean
+	showPC: boolean
+	showCH: boolean
+}
+
+export const defaultComboFilter: ComboFilter = {
+	driveMin: 0,
+	driveMax: 6,
+	superMin: 0,
+	superMax: 3,
+	showNormal: true,
+	showPC: true,
+	showCH: true
+}
+
+export interface AppSettings {
+	move_notation: string
+}
+
+export interface MoveCommand {
+	number_command: string
+	letter_command: string
+}
+
+export interface MoveMapping {
+	[key: string]: MoveCommand
+}
+
+export interface ComboUsage {
+	combo: Combo
+	usage: [
+		{
+			id: number
+			cfn_id: string
+			player_one_name: string
+			player_two_name: string
+			character_one_name: string
+			character_two_name: string
+			round_time: number
+			round_number: number
+		}
+	]
+}
+
+// General
+export const defaultAppSettings: AppSettings = {
+	move_notation: MoveNotationTypes.NUMBER_COMMAND
 }
