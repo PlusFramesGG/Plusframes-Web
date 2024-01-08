@@ -20,6 +20,10 @@ export enum GeneralAPIResponses {
 	UNAUTHORIZED = 'UNAUTHORIZED'
 }
 
+export enum Games {
+	SF6 = 'SF6'
+}
+
 // Firebase Specific Enums
 export enum DocumentResponses {
 	DATA_FOUND = 'DATA_FOUND',
@@ -163,4 +167,9 @@ export interface ComboUsage {
 // General
 export const defaultAppSettings: AppSettings = {
 	move_notation: MoveNotationTypes.NUMBER_COMMAND
+}
+
+// TODO: Fill these out as we get more games implemented
+export const gameUrlMappings = {
+	[Games.SF6]: process.env.NEXT_PUBLIC_SF6_DATA_SERVICE_URL!!
 }

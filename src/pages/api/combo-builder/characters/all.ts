@@ -1,12 +1,21 @@
-import { TypedResponse, PFUser, APIMethods, APIStatuses, GeneralAPIResponses, Character } from '@/shared/types'
+import {
+	TypedResponse,
+	APIMethods,
+	APIStatuses,
+	GeneralAPIResponses,
+	Character,
+	Games,
+	gameUrlMappings
+} from '@/shared/types'
 import { NextApiRequest } from 'next'
 
 const handler = async (req: NextApiRequest, res: TypedResponse<Record<string, Character[]>>) => {
-	const { method } = req
+	const { method, body } = req
+	const game: Games = body.game ?? Games.SF6
 
 	if (method === APIMethods.GET) {
 		try {
-			const apiResponse = await fetch(`${process.env.NEXT_PUBLIC_SF6_DATA_SERVICE_URL}/characters`)
+			const apiResponse = await fetch(`${gameUrlMappings[game]}/characters`)
 			if (!apiResponse.ok) throw new Error('API response failed')
 
 			const apiResponseData = (await apiResponse.json()) as Character[]
@@ -17,6 +26,8 @@ const handler = async (req: NextApiRequest, res: TypedResponse<Record<string, Ch
 			console.error('e', e)
 			return res.status(400).json({ status: APIStatuses.ERROR, type: GeneralAPIResponses.FAILURE, data: { error: e } })
 		}
+	} else {
+		return res.status(404).json({ status: APIStatuses.ERROR, type: GeneralAPIResponses.INVALID_REQUEST_TYPE })
 	}
 }
 
