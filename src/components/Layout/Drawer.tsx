@@ -10,7 +10,7 @@ type DrawerProps = {
 const Drawer: React.FC<DrawerProps> = ({ isOpen, setIsOpen }) => {
 	const drawerRef = React.useRef(null)
 
-	useOutsideClick(drawerRef, () => setIsOpen(false))
+	useOutsideClick(drawerRef, () => setIsOpen(false), ['hamburger-react'])
 
 	return (
 		<div

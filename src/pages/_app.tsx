@@ -19,7 +19,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 	const renderWithLayout = Component.getLayout || ((page: ReactNode) => <Layout>{page}</Layout>)
 	return (
 		<ErrorBoundary>
-			<ClerkProvider {...pageProps}>{renderWithLayout(<Component {...pageProps} />)}</ClerkProvider>
+			<ClerkProvider {...pageProps} signInUrl="/auth/sign-in">
+				{renderWithLayout(<Component {...pageProps} />)}
+			</ClerkProvider>
 		</ErrorBoundary>
 	)
 }

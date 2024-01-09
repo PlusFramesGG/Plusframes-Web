@@ -12,7 +12,10 @@ const Layout = ({ children }: LayoutProps) => {
 
 	return (
 		<>
-			<CustomHeader toggled={isHamburgerOpen} toggle={setIsHamburgerOpen} />
+			<CustomHeader
+				toggled={isHamburgerOpen}
+				toggle={() => setIsHamburgerOpen((isCurrentlyOpen: boolean) => !isCurrentlyOpen)}
+			/>
 			{children}
 		</>
 	)
