@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { UserButton } from '@clerk/nextjs'
+import HolographicText from '@/components/General/HolographicText'
 
 const inter = Inter({ subsets: ['latin'] })
 
