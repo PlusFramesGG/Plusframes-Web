@@ -6,7 +6,7 @@ import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 type CustomHeaderProps = {
 	toggled: boolean
-	toggle: Dispatch<SetStateAction<boolean>>
+	toggle: (newIsOpenVal: boolean) => void
 }
 
 const CustomHeader = ({ toggled, toggle }: CustomHeaderProps) => {
@@ -20,7 +20,7 @@ const CustomHeader = ({ toggled, toggle }: CustomHeaderProps) => {
 
 	return (
 		<header className="relative">
-			<div className="navbar bg-base-100 relative">
+			<div className="navbar bg-[#5869A1] text-white">
 				<div className="navbar-start">
 					<a className="btn btn-ghost text-xl">PlusFrames.GG</a>
 				</div>
@@ -36,10 +36,10 @@ const CustomHeader = ({ toggled, toggle }: CustomHeaderProps) => {
 							<SignInButton />
 						</SignedOut>
 					</div>
-					<Hamburger toggled={toggled} toggle={toggle} />
+					<Hamburger toggled={toggled} toggle={() => toggle(!toggled)} />
 				</div>
 			</div>
-			<Drawer isOpen={toggled} setIsOpen={toggle} />
+			<Drawer isOpen={toggled} setIsOpen={() => toggle(false)} />
 		</header>
 	)
 }

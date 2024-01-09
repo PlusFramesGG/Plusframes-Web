@@ -10,12 +10,13 @@ type LayoutProps = {
 const Layout = ({ children }: LayoutProps) => {
 	const [isHamburgerOpen, setIsHamburgerOpen] = React.useState<boolean>(false)
 
+	React.useEffect(() => {
+		console.log('isHamburgerOpen', isHamburgerOpen)
+	})
+
 	return (
 		<>
-			<CustomHeader
-				toggled={isHamburgerOpen}
-				toggle={() => setIsHamburgerOpen((isCurrentlyOpen: boolean) => !isCurrentlyOpen)}
-			/>
+			<CustomHeader toggled={isHamburgerOpen} toggle={(newIsOpenVal: boolean) => setIsHamburgerOpen(newIsOpenVal)} />
 			{children}
 		</>
 	)
