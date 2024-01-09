@@ -1,4 +1,5 @@
 import ErrorBoundary from '@/components/General/ErrorBoundary'
+import Layout from '@/components/Layout'
 import '@/styles/globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
 import { NextPage } from 'next'
@@ -15,7 +16,7 @@ type AppPropsWithLayout = AppProps & {
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
 	// TODO: Add base layout
-	const renderWithLayout = Component.getLayout || ((page: ReactNode) => <>{page}</>)
+	const renderWithLayout = Component.getLayout || ((page: ReactNode) => <Layout>{page}</Layout>)
 	return (
 		<ErrorBoundary>
 			<ClerkProvider {...pageProps}>{renderWithLayout(<Component {...pageProps} />)}</ClerkProvider>

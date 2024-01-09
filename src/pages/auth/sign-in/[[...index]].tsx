@@ -7,7 +7,7 @@ const SignInPage = () => (
 	</div>
 )
 
-// TODO: Add layout here
-SignInPage.getLayout = (page: React.ReactChild) => <>{page}</>
+// TODO: Add custom layout here
+// SignInPage.getLayout = (page: React.ReactChild) => <>{page}</>
 
 export default SignInPage

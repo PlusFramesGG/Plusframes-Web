@@ -7,7 +7,7 @@ const SignUpPage = () => (
 	</div>
 )
 
-// TODO: Add layout here
-SignUpPage.getLayout = (page: React.ReactChild) => <>{page}</>
+// TODO: Add custom layout here
+// SignUpPage.getLayout = (page: React.ReactChild) => <>{page}</>
 
 export default SignUpPage

@@ -2,6 +2,9 @@
 
 ## Endpoints
 
+### General
+- The `api/health-check` endpoint is used for testing API status when needed.
+
 ### Combo Builder Endpoints
 - These endpoints related to the combo builder portion of the application.
 - All endpoints are prefixed with `/api/combo-builder`
