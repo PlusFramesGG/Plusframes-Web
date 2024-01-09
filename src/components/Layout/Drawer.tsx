@@ -2,6 +2,7 @@ import Link from 'next/link'
 import React, { Dispatch, SetStateAction } from 'react'
 import { useOutsideClick } from '../Hooks/useOutsideClick'
 import HolographicText from '../General/HolographicText'
+import { useAuth } from '@clerk/nextjs'
 
 type DrawerProps = {
 	isOpen: boolean
@@ -10,6 +11,8 @@ type DrawerProps = {
 
 const Drawer: React.FC<DrawerProps> = ({ isOpen, setIsOpen }) => {
 	const drawerRef = React.useRef(null)
+	// TODO: Implement handling of loading and a spinner/redirect on sign out
+	const { isLoaded, isSignedIn, signOut } = useAuth()
 
 	useOutsideClick(drawerRef, () => setIsOpen(false), ['hamburger-react'])
 
@@ -30,9 +33,16 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, setIsOpen }) => {
 				<Link href="/app/fantasy-league" className="text-white text-[29px]">
 					<HolographicText onClick={() => setIsOpen(false)}>Fantasy Bracket</HolographicText>
 				</Link>
-				<Link href="/auth/sign-in" className="text-white text-[29px]">
-					<HolographicText onClick={() => setIsOpen(false)}>Sign In</HolographicText>
-				</Link>
+				{isSignedIn ? (
+					<p onClick={() => signOut()} className="text-white text-[29px] cursor-pointer">
+						<HolographicText onClick={() => setIsOpen(false)}>Sign Out</HolographicText>
+					</p>
+				) : (
+					<Link href="/auth/sign-in" className="text-white text-[29px]">
+						<HolographicText onClick={() => setIsOpen(false)}>Sign In</HolographicText>
+					</Link>
+				)}
+
 				<Link href="/app/settings" className="text-white text-[29px]">
 					<HolographicText onClick={() => setIsOpen(false)}>Settings</HolographicText>
 				</Link>
