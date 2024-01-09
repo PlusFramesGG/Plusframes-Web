@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { useRouter } from 'next/router'
 import { Turn as Hamburger } from 'hamburger-react'
+import Drawer from './Drawer'
 
 type CustomHeaderProps = {
 	toggled: boolean
@@ -16,8 +17,8 @@ const CustomHeader = ({ toggled, toggle }: CustomHeaderProps) => {
 		: 'Home'
 
 	return (
-		<header>
-			<div className="navbar bg-base-100">
+		<header className="relative">
+			<div className="navbar bg-base-100 relative">
 				<div className="navbar-start">
 					<a className="btn btn-ghost text-xl">PlusFrames.GG</a>
 				</div>
@@ -28,6 +29,7 @@ const CustomHeader = ({ toggled, toggle }: CustomHeaderProps) => {
 					<Hamburger toggled={toggled} toggle={toggle} />
 				</div>
 			</div>
+			<Drawer isOpen={toggled} setIsOpen={toggle} />
 		</header>
 	)
 }
