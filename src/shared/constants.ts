@@ -68,7 +68,7 @@ export const characterPortraitMappings = {
 }
 
 export const charactersByGame = {
-	SF6: new Set<string>([
+	SF6: [
 		'AKI',
 		'Blanka',
 		'Cammy',
@@ -89,5 +89,5 @@ export const charactersByGame = {
 		'Rashid',
 		'Ryu',
 		'Zangief'
-	])
+	]
 }
