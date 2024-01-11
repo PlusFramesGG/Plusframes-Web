@@ -17,3 +17,77 @@ export const defaultAppSettings: AppSettings = {
 export const gameUrlMappings = {
 	[Games.SF6]: SF6_URL
 }
+
+export const characterPortraitMappings = {
+	SF6: {
+		portraits: {
+			AKI: '/Assets/SF6/Character Portraits/AKI.png',
+			Blanka: '/Assets/SF6/Character Portraits/Blanka.png',
+			Cammy: '/Assets/SF6/Character Portraits/Cammy.png',
+			['Chun-Li']: '/Assets/SF6/Character Portraits/Chun-Li.png',
+			['Dee Jay']: '/Assets/SF6/Character Portraits/Dee Jay.png',
+			Dhalsim: '/Assets/SF6/Character Portraits/Dhalsim.png',
+			['E Honda']: '/Assets/SF6/Character Portraits/E Honda.png',
+			Guile: '/Assets/SF6/Character Portraits/Guile.png',
+			Jamie: '/Assets/SF6/Character Portraits/Jamie.png',
+			JP: '/Assets/SF6/Character Portraits/JP.png',
+			Juri: '/Assets/SF6/Character Portraits/Juri.png',
+			Ken: '/Assets/SF6/Character Portraits/Ken.png',
+			Kimberly: '/Assets/SF6/Character Portraits/Kimberly.png',
+			Lily: '/Assets/SF6/Character Portraits/Lily.png',
+			Luke: '/Assets/SF6/Character Portraits/Luke.png',
+			Manon: '/Assets/SF6/Character Portraits/Manon.png',
+			Marisa: '/Assets/SF6/Character Portraits/Marisa.png',
+			Rashid: '/Assets/SF6/Character Portraits/Rashid.png',
+			Ryu: '/Assets/SF6/Character Portraits/Ryu.png',
+			Zangief: '/Assets/SF6/Character Portraits/Zangief.png'
+		},
+		characterSelectPortraits: {
+			AKI: '/Assets/SF6/Character Select Portraits/AKI.png',
+			Blanka: '/Assets/SF6/Character Select Portraits/Blanka.png',
+			Cammy: '/Assets/SF6/Character Select Portraits/Cammy.png',
+			['Chun-Li']: '/Assets/SF6/Character Select Portraits/Chun-Li.png',
+			['Dee Jay']: '/Assets/SF6/Character Select Portraits/Dee Jay.png',
+			Dhalsim: '/Assets/SF6/Character Select Portraits/Dhalsim.png',
+			['E Honda']: '/Assets/SF6/Character Select Portraits/E Honda.png',
+			Guile: '/Assets/SF6/Character Select Portraits/Guile.png',
+			Jamie: '/Assets/SF6/Character Select Portraits/Jamie.png',
+			JP: '/Assets/SF6/Character Select Portraits/JP.png',
+			Juri: '/Assets/SF6/Character Select Portraits/Juri.png',
+			Ken: '/Assets/SF6/Character Select Portraits/Ken.png',
+			Kimberly: '/Assets/SF6/Character Select Portraits/Kimberly.png',
+			Lily: '/Assets/SF6/Character Select Portraits/Lily.png',
+			Luke: '/Assets/SF6/Character Select Portraits/Luke.png',
+			Manon: '/Assets/SF6/Character Select Portraits/Manon.png',
+			Marisa: '/Assets/SF6/Character Select Portraits/Marisa.png',
+			Rashid: '/Assets/SF6/Character Select Portraits/Rashid.png',
+			Ryu: '/Assets/SF6/Character Select Portraits/Ryu.png',
+			Zangief: '/Assets/SF6/Character Select Portraits/Zangief.png'
+		}
+	}
+}
+
+export const charactersByGame = {
+	SF6: new Set<string>([
+		'AKI',
+		'Blanka',
+		'Cammy',
+		'Chun-Li',
+		'Dee Jay',
+		'Dhalsim',
+		'E Honda',
+		'Guile',
+		'Jamie',
+		'JP',
+		'Juri',
+		'Ken',
+		'Kimberly',
+		'Lily',
+		'Luke',
+		'Manon',
+		'Marisa',
+		'Rashid',
+		'Ryu',
+		'Zangief'
+	])
+}
