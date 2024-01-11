@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { Turn as Hamburger } from 'hamburger-react'
 import Drawer from './Drawer'
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import Image from 'next/image'
 
 type CustomHeaderProps = {
 	toggled: boolean
@@ -22,7 +23,10 @@ const CustomHeader = ({ toggled, toggle }: CustomHeaderProps) => {
 		<header className="relative">
 			<div className="navbar bg-[#5869A1] text-white">
 				<div className="navbar-start">
-					<a className="btn btn-ghost text-xl">PlusFrames.GG</a>
+					<a className="btn btn-ghost text-xl">
+						{/* TODO: Sub for the square logo on mobile */}
+						<Image alt="The PlusFramesGG Logo" width={200} height={300} src="/Assets/Logos/pf-logo-wide.png" />
+					</a>
 				</div>
 				<div>
 					<h1 className="text-xl navbar-center">{headerText}</h1>
