@@ -5,6 +5,7 @@ import { Turn as Hamburger } from 'hamburger-react'
 import Drawer from './Drawer'
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import Image from 'next/image'
+import Link from 'next/link'
 
 type CustomHeaderProps = {
 	toggled: boolean
@@ -24,12 +25,12 @@ const CustomHeader = ({ toggled, toggle }: CustomHeaderProps) => {
 		<header className="relative">
 			<div className="navbar bg-[#5869A1] text-white">
 				<div className="navbar-start">
-					<a className="btn btn-ghost text-xl md:hidden">
+					<Link href="/" className="btn btn-ghost text-xl md:hidden">
 						<Image alt="The PlusFramesGG Logo" width={41} height={300} src="/Assets/Logos/pf-logo-small.png" />
-					</a>
-					<a className="btn btn-ghost text-xl hidden md:inline-flex">
+					</Link>
+					<Link href="/" className="btn btn-ghost text-xl hidden md:inline-flex">
 						<Image alt="The PlusFramesGG Logo" width={200} height={300} src="/Assets/Logos/pf-logo-wide.png" />
-					</a>
+					</Link>
 				</div>
 				<div>
 					<h1 className="text-xl navbar-center">{headerText}</h1>
