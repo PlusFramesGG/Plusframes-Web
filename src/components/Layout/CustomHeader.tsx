@@ -1,4 +1,5 @@
-import React, { Dispatch, SetStateAction } from 'react'
+'use client'
+import React from 'react'
 import { useRouter } from 'next/router'
 import { Turn as Hamburger } from 'hamburger-react'
 import Drawer from './Drawer'
@@ -23,8 +24,10 @@ const CustomHeader = ({ toggled, toggle }: CustomHeaderProps) => {
 		<header className="relative">
 			<div className="navbar bg-[#5869A1] text-white">
 				<div className="navbar-start">
-					<a className="btn btn-ghost text-xl">
-						{/* TODO: Sub for the square logo on mobile */}
+					<a className="btn btn-ghost text-xl md:hidden">
+						<Image alt="The PlusFramesGG Logo" width={45} height={300} src="/Assets/Logos/pf-logo-small.png" />
+					</a>
+					<a className="btn btn-ghost text-xl hidden md:inline-flex">
 						<Image alt="The PlusFramesGG Logo" width={200} height={300} src="/Assets/Logos/pf-logo-wide.png" />
 					</a>
 				</div>
