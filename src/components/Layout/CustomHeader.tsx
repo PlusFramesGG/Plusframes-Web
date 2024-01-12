@@ -25,7 +25,7 @@ const CustomHeader = ({ toggled, toggle }: CustomHeaderProps) => {
 			<div className="navbar bg-[#5869A1] text-white">
 				<div className="navbar-start">
 					<a className="btn btn-ghost text-xl md:hidden">
-						<Image alt="The PlusFramesGG Logo" width={45} height={300} src="/Assets/Logos/pf-logo-small.png" />
+						<Image alt="The PlusFramesGG Logo" width={41} height={300} src="/Assets/Logos/pf-logo-small.png" />
 					</a>
 					<a className="btn btn-ghost text-xl hidden md:inline-flex">
 						<Image alt="The PlusFramesGG Logo" width={200} height={300} src="/Assets/Logos/pf-logo-wide.png" />
