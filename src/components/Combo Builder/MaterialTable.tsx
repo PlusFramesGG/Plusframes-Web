@@ -1,6 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
 
+// Inspo from https://demos.creative-tim.com/material-tailwind-dashboard-react/?_ga=2.34022373.538809748.1705091113-404594367.1704996279#/dashboard/tables
+
 const MaterialTable = () => {
 	return (
 		<div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md max-w-[90vw] mx-auto mt-10">
