@@ -261,3 +261,5 @@ components:
        round_number:
         type: number
         description: Number of the round
+
+// TODO: All combos by character

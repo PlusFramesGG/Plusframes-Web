@@ -1,6 +1,5 @@
 import MaterialTable from '@/components/Combo Builder/MaterialTable'
 import { NextPageContext } from 'next'
-import { useRouter } from 'next/router'
 import React from 'react'
 
 type ComboPageServerSideProps = {
