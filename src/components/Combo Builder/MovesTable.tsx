@@ -20,7 +20,7 @@ const MovesTable = ({ characterName, moves }: MovesTableProps) => {
 				</h6>
 			</div>
 			<div className="p-6 px-0 pt-0 pb-2">
-				<table className="w-full min-w-[640px] table-auto">
+				<table className="w-full min-w-[640px] table-fixed">
 					<thead>
 						<tr>
 							<th className="border-b border-blue-gray-50 py-3 px-5 text-left">

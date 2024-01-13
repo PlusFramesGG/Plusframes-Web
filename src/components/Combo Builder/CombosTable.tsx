@@ -12,9 +12,9 @@ const CombosTable = () => {
 				</h6>
 			</div>
 			<div className="p-6 px-0 pt-0 pb-2">
-				<table className="w-full min-w-[640px] table-auto">
+				<table className="w-full min-w-[640px] table-fixed">
 					<thead>
-						<tr>
+						<tr className="w-1/4">
 							<th className="border-b border-blue-gray-50 py-3 px-5 text-left">
 								<p className="block antialiased font-sans text-[11px] font-bold uppercase text-blue-gray-400">combo</p>
 							</th>
@@ -31,6 +31,47 @@ const CombosTable = () => {
 					</thead>
 					<tbody>
 						<tr>
+							<td className="py-3 px-5 border-b border-blue-gray-50 w-1/4">
+								<div className="flex items-center gap-4">
+									<Image
+										height={36}
+										width={36}
+										src="/Assets/SF6/Character Portraits/Ryu.png"
+										alt="Ryu's Character Portrait"
+										className="inline-block relative object-cover object-center w-9 h-9 rounded-md"
+									/>
+									<div>
+										<p className="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-semibold">
+											Standing MK
+										</p>
+										<p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">MK - QCF L|M|H</p>
+									</div>
+								</div>
+							</td>
+							<td className="py-3 px-5 border-b border-blue-gray-50 w-1/4">
+								<p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">Minimum: 95</p>
+								<p className="block antialiased font-sans text-xs font-semibold text-blue-gray-500">Maximum: 169</p>
+							</td>
+							<td className="py-3 px-5 border-b border-blue-gray-50 w-1/4">
+								<p className="block antialiased font-sans text-xs font-semibold text-blue-gray-500">Corner | Midscreen</p>
+								{/* <div
+									className="relative grid items-center font-sans uppercase whitespace-nowrap select-none bg-gradient-to-tr from-green-600 to-green-400 text-white rounded-lg py-0.5 px-2 text-[11px] font-medium w-fit"
+									style={{ opacity: 1 }}
+								>
+									<span className="">online</span>
+								</div> */}
+							</td>
+							<td className="py-3 px-5 border-b border-blue-gray-50 w-1/4">
+								<p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">Drive: 0</p>
+								<p className="block antialiased font-sans text-xs font-semibold text-blue-gray-500">Super: 0</p>
+							</td>
+							{/* <td className="py-3 px-5 border-b border-blue-gray-50">
+								<a href="#" className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
+									Edit
+								</a>
+							</td> */}
+						</tr>
+						<tr className="w-1/4">
 							<td className="py-3 px-5 border-b border-blue-gray-50">
 								<div className="flex items-center gap-4">
 									<Image
@@ -71,7 +112,7 @@ const CombosTable = () => {
 								</a>
 							</td> */}
 						</tr>
-						<tr>
+						<tr className="w-1/4">
 							<td className="py-3 px-5 border-b border-blue-gray-50">
 								<div className="flex items-center gap-4">
 									<Image
@@ -112,7 +153,7 @@ const CombosTable = () => {
 								</a>
 							</td> */}
 						</tr>
-						<tr>
+						<tr className="w-1/4">
 							<td className="py-3 px-5 border-b border-blue-gray-50">
 								<div className="flex items-center gap-4">
 									<Image
@@ -153,7 +194,7 @@ const CombosTable = () => {
 								</a>
 							</td> */}
 						</tr>
-						<tr>
+						<tr className="w-1/4">
 							<td className="py-3 px-5 border-b border-blue-gray-50">
 								<div className="flex items-center gap-4">
 									<Image
@@ -194,48 +235,7 @@ const CombosTable = () => {
 								</a>
 							</td> */}
 						</tr>
-						<tr>
-							<td className="py-3 px-5 border-b border-blue-gray-50">
-								<div className="flex items-center gap-4">
-									<Image
-										height={36}
-										width={36}
-										src="/Assets/SF6/Character Portraits/Ryu.png"
-										alt="Ryu's Character Portrait"
-										className="inline-block relative object-cover object-center w-9 h-9 rounded-md"
-									/>
-									<div>
-										<p className="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-semibold">
-											Standing MK
-										</p>
-										<p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">MK - QCF L|M|H</p>
-									</div>
-								</div>
-							</td>
-							<td className="py-3 px-5 border-b border-blue-gray-50">
-								<p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">Minimum: 95</p>
-								<p className="block antialiased font-sans text-xs font-semibold text-blue-gray-500">Maximum: 169</p>
-							</td>
-							<td className="py-3 px-5 border-b border-blue-gray-50">
-								<p className="block antialiased font-sans text-xs font-semibold text-blue-gray-500">Corner | Midscreen</p>
-								{/* <div
-									className="relative grid items-center font-sans uppercase whitespace-nowrap select-none bg-gradient-to-tr from-green-600 to-green-400 text-white rounded-lg py-0.5 px-2 text-[11px] font-medium w-fit"
-									style={{ opacity: 1 }}
-								>
-									<span className="">online</span>
-								</div> */}
-							</td>
-							<td className="py-3 px-5 border-b border-blue-gray-50">
-								<p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">Drive: 0</p>
-								<p className="block antialiased font-sans text-xs font-semibold text-blue-gray-500">Super: 0</p>
-							</td>
-							{/* <td className="py-3 px-5 border-b border-blue-gray-50">
-								<a href="#" className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-									Edit
-								</a>
-							</td> */}
-						</tr>
-						<tr>
+						<tr className="w-1/4">
 							<td className="py-3 px-5 border-b border-blue-gray-50">
 								<div className="flex items-center gap-4">
 									<Image

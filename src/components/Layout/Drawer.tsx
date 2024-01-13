@@ -38,7 +38,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, setIsOpen }) => {
 						<HolographicText onClick={() => setIsOpen(false)}>Sign Out</HolographicText>
 					</p>
 				) : (
-					<Link href="/auth/sign-in" className="text-white text-[29px]">
+					<Link href="/sign-in" className="text-white text-[29px]">
 						<HolographicText onClick={() => setIsOpen(false)}>Sign In</HolographicText>
 					</Link>
 				)}

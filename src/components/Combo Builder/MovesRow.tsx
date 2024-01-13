@@ -8,10 +8,8 @@ type MovesRowProps = {
 
 // TODO: Resize first column here
 const MovesRow = ({ move }: MovesRowProps) => {
-	console.log('move', move)
-
 	return (
-		<tr>
+		<tr className="w-1/4">
 			<td className="py-3 px-5 border-b border-blue-gray-50">
 				<div className="flex items-center gap-4">
 					<Image
@@ -40,11 +38,6 @@ const MovesRow = ({ move }: MovesRowProps) => {
 				<p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">Drive: TBA</p>
 				<p className="block antialiased font-sans text-xs font-semibold text-blue-gray-500">Super: TBA</p>
 			</td>
-			{/* <td className="py-3 px-5 border-b border-blue-gray-50">
-								<a href="#" className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-									Edit
-								</a>
-							</td> */}
 		</tr>
 	)
 }
