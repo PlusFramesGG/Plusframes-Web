@@ -13,11 +13,8 @@ export default authMiddleware({
 		return beforeAuthMiddleware(req)
 	},
 	afterAuth(auth, req, evt) {
-		console.log('process.env.NODE_EVN', process.env.NODE_ENV)
-		// console.log(`User ID: ${auth.userId ?? 'none'}`)
-
+		// TODO: Remove before go live
 		if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
-			console.log('here')
 			if (!auth.userId && !auth.isPublicRoute) {
 				return redirectToSignIn({ returnBackUrl: req.url })
 			}
