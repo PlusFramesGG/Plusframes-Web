@@ -14,7 +14,7 @@ type MovesPageServerSideProps = {
 const MovesPage = ({ characterName, moves, error }: MovesPageServerSideProps) => {
 	if (error) {
 		// TODO: Decide how we want to handle this (prob redirect to an error page)
-		console.error(`There was an error fetching move data for ${characterName}`, error)
+		console.error(`There was an error fetching move data for ${characterName}`)
 	}
 	return (
 		<div>
@@ -40,6 +40,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
 			}
 		}
 	} catch (error) {
+		console.error(`An error occured fetching move data`, error)
 		return {
 			props: {
 				characterName: 'null',
