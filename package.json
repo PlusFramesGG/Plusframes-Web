@@ -17,6 +17,7 @@
     "daisyui": "^4.4.19",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
+    "events": "^3.3.0",
     "firebase": "^9.22.0",
     "hamburger-react": "^2.5.0",
     "mongoose": "^7.1.1",

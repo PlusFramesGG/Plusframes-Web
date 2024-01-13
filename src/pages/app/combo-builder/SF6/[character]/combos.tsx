@@ -1,22 +1,27 @@
-import ComboTable from '@/components/Combo Builder/ComboTable'
 import MaterialTable from '@/components/Combo Builder/MaterialTable'
+import { NextPageContext } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-// TODO: this page needs to be SSR'd
-const CombosPage = () => {
-	const router = useRouter()
-	const { game, character } = router.query
+type ComboPageServerSideProps = {
+	character: string
+}
 
-	console.log('Game', game)
-	console.log('character', character)
-
+const CombosPage = ({ character }: ComboPageServerSideProps) => {
 	return (
 		<div>
-			{/* <ComboTable /> */}
 			<MaterialTable />
 		</div>
 	)
 }
 
 export default CombosPage
+
+export const getServerSideProps = async (context: NextPageContext) => {
+	const { character } = context.query
+	return {
+		props: {
+			character
+		}
+	}
+}
