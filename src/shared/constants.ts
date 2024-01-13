@@ -18,6 +18,7 @@ export const gameUrlMappings = {
 	[Games.SF6]: SF6_URL
 }
 
+// TODO: Lowercase all of these keys
 export const characterPortraitMappings = {
 	SF6: {
 		portraits: {
@@ -90,4 +91,17 @@ export const charactersByGame = {
 		'Ryu',
 		'Zangief'
 	]
+}
+
+// TODO: Fill both of these maps out once we have the values from RK
+export const characterIdMappingsByGame: Record<Games, Record<string, number>> = {
+	SF6: {
+		ryu: 1
+	}
+}
+
+export const characterDisplayNameMappingsByGame: Record<Games, Record<number, string>> = {
+	SF6: {
+		1: 'Ryu'
+	}
 }

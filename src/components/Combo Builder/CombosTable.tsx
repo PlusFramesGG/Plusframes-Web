@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 // Inspo from https://demos.creative-tim.com/material-tailwind-dashboard-react/?_ga=2.34022373.538809748.1705091113-404594367.1704996279#/dashboard/tables
 
-const MaterialTable = () => {
+const CombosTable = () => {
 	return (
 		<div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md max-w-[90vw] mx-auto mt-10">
 			<div className="relative bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-gray-900 to-gray-800 text-white shadow-gray-900/20 shadow-lg -mt-6 mb-8 p-6">
@@ -283,4 +283,4 @@ const MaterialTable = () => {
 	)
 }
 
-export default MaterialTable
+export default CombosTable
