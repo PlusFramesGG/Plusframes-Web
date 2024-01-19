@@ -13,7 +13,7 @@ type MovesTableProps = {
 // TODO: Would be great to color code these for positive and negative frames
 const MovesTable = ({ characterName, moves }: MovesTableProps) => {
 	return (
-		<div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md max-w-[90vw] mx-auto mt-10 overflow-x-scroll pt-[30px]">
+		<div className="relative mb-12 flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md max-w-[90vw] mx-auto mt-10">
 			<div className="relative bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-gray-900 to-gray-800 text-white shadow-gray-900/20 shadow-lg -mt-6 mb-8 p-6">
 				<h6 className="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-white">
 					All Moves for {characterName}

@@ -3,6 +3,7 @@ import { characterDisplayNameMappingsByGame, characterIdMappingsByGame } from '@
 import { Games, Move } from '@/shared/types'
 import { fetchMovesByCharacterId } from '@/shared/utils'
 import { NextPageContext } from 'next'
+import Link from 'next/link'
 import React from 'react'
 
 type MovesPageServerSideProps = {
@@ -18,6 +19,20 @@ const MovesPage = ({ characterName, moves, error }: MovesPageServerSideProps) =>
 	}
 	return (
 		<div>
+			<div className="text-sm breadcrumbs ml-6 mt-5">
+				<ul>
+					<li>
+						<Link href="/app">Home</Link>
+					</li>
+					<li>
+						<Link href="/app/combo-builder">Combo Builder</Link>
+					</li>
+					<li>
+						<Link href={`/app/combo-builder/SF6/${characterName}`}>{characterName}</Link>
+					</li>
+					<li>Combos</li>
+				</ul>
+			</div>
 			<MovesTable characterName={characterName} moves={moves} />
 		</div>
 	)

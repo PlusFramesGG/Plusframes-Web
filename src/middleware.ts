@@ -19,7 +19,7 @@ export default authMiddleware({
 				return redirectToSignIn({ returnBackUrl: req.url })
 			}
 
-			// TODO: Change this redirect to their dashboard eventually
+			// TODO: Figure out the too many redirects situation here
 			// if (auth.userId) {
 			// 	const comboBuilder = new URL('/app/combo-builder/SF6/ryu/moves', req.url)
 			// 	return NextResponse.redirect(comboBuilder)
