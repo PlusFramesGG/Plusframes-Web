@@ -38,8 +38,8 @@ const MovesTable = ({ characterName, moves }: MovesTableProps) => {
 						</tr>
 					</thead>
 					<tbody>
-						{moves.map((move: Move) => (
-							<MovesRow move={move} />
+						{moves.map((move: Move, index: number) => (
+							<MovesRow key={`${move.id}_${index}`} move={move} />
 						))}
 					</tbody>
 				</table>

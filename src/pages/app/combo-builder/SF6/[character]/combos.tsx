@@ -44,7 +44,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
 		const characterId = characterIdMappingsByGame.SF6[character]
 		const characterName = characterDisplayNameMappingsByGame.SF6[characterId]
 		// TODO: Replace with a combos by character ID method
-		const combos: Combo[] = await fetchCombosByMoveId('1', Games.SF6)
+		const combos: Combo[] = await fetchCombosByMoveId('518', Games.SF6)
 
 		console.log('combos', combos)
 		return {

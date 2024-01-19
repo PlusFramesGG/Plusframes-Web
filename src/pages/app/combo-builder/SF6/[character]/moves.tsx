@@ -30,7 +30,7 @@ const MovesPage = ({ characterName, moves, error }: MovesPageServerSideProps) =>
 					<li>
 						<Link href={`/app/combo-builder/SF6/${characterName}`}>{characterName}</Link>
 					</li>
-					<li>Combos</li>
+					<li>Moves</li>
 				</ul>
 			</div>
 			<MovesTable characterName={characterName} moves={moves} />
