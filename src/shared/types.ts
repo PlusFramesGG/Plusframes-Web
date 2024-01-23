@@ -85,6 +85,13 @@ export type PFUser = {
 	username: string
 }
 
+// TODO: Implement update methods
+export enum TypeOfPerson {
+	ADMIN = 'ADMIN',
+	VISITOR = 'VISITOR',
+	REGISTERED_VISITOR = 'REGISTERED_VISITOR'
+}
+
 export interface Character {
 	id: number
 	name: string
