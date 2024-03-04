@@ -21,6 +21,7 @@ type AppPropsWithLayout = AppProps & {
 // @ts-ignore
 class MyApp extends App<AppPropsWithLayout> {
 	static async getInitialProps({ Component, ctx }: AppPropsWithLayout) {
+		if (process.env.NODE_ENV !== 'production') return {}
 		let pageProps = {}
 
 		if (ctx.req) {
