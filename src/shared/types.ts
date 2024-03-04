@@ -172,3 +172,36 @@ export interface ComboUsage {
 		}
 	]
 }
+
+export type RawReplayResponse = {
+	replay_id: string
+	round_data: ReplayRound[]
+}
+
+export type ReplayRound = ReplayRoundAction[]
+
+export type ReplayRoundAction = {
+	frame: number
+	player_one_action_id: number
+	player_one_drive: string
+	player_one_health: string
+	player_one_input_data: number
+	player_one_input_side: string
+	player_one_move_id: number
+	player_one_state_id: number
+	player_one_super: string
+	player_one_x_location: string
+	player_one_y_location: string
+	player_two_action_id: number
+	player_two_drive: string
+	player_two_health: string
+	player_two_input_data: number
+	player_two_input_side: string
+	player_two_move_id: number
+	player_two_state_id: number
+	player_two_super: string
+	player_two_x_location: string
+	player_two_y_location: string
+	round_number: number
+	round_time: string
+}
