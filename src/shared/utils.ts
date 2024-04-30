@@ -50,3 +50,9 @@ export async function fetchComboUsage(comboId: string, game: Games): Promise<Com
 	const apiResponse = await fetch(`${gameUrlMappings[game]}/combo_usage/${comboId}`)
 	return await apiResponse.json()
 }
+
+// Fetch characters
+export async function fetchCharacters(game: Games): Promise<Character[]> {
+	const apiResponse = await fetch(`${gameUrlMappings[game]}/characters`)
+	return await apiResponse.json()
+}
