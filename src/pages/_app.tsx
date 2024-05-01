@@ -35,6 +35,7 @@ class MyApp extends App<AppPropsWithLayout> {
 				// const ingestionEngineAPILocation =
 				// 	process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'http://localhost:3001'
 				const ingestionEngineAPILocation = process.env.USER_INGESTION_API_LOCATION!
+				console.log("ingestionEngineAPILocation="+ingestionEngineAPILocation)
 
 				const userDataPayload = {
 					ip,
@@ -44,12 +45,16 @@ class MyApp extends App<AppPropsWithLayout> {
 					typeOfPerson: TypeOfPerson.VISITOR
 				}
 
+				const bodyPayload = JSON.stringify(userDataPayload);
+				console.log('Payload Length:', bodyPayload.length);
+				console.log('Payload:', bodyPayload);
+
 				const request = await fetch(`${ingestionEngineAPILocation}/ingest`, {
 					method: APIMethods.POST,
 					headers: {
 						'Content-Type': 'application/json'
 					},
-					body: JSON.stringify(userDataPayload)
+					body: bodyPayload
 				})
 				const response = await request.json()
 				const { user_id } = response.data
