@@ -7,7 +7,7 @@ const beforeAuthMiddleware = (req: NextRequest) => {
 
 export default authMiddleware({
 	// TODO: Determine all public routes when we go live
-	publicRoutes: ['/','/app/combo-builder/SF6/*'],
+	publicRoutes: ['/','/app/combo-builder/SF6/:path*'],
 	beforeAuth: (req) => {
 		// Execute next-intl middleware before Clerk's auth middleware
 		return beforeAuthMiddleware(req)
