@@ -37,7 +37,10 @@ class MyApp extends App<AppPropsWithLayout> {
 				// 	process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'http://localhost:3001'
 
 				const ingestionEngineAPILocation = process.env.USER_INGESTION_API_LOCATION!
-				console.log("ingestionEngineAPILocation="+ingestionEngineAPILocation)
+
+				if (typeof ingestionEngineAPILocation === 'undefined') {
+					return {}
+				}
 
 				const userDataPayload = {
 					ip,
@@ -58,6 +61,8 @@ class MyApp extends App<AppPropsWithLayout> {
 					},
 					body: bodyPayload
 				})
+				
+
 				const response = await request.json()
 				const { user_id } = response.data
 
