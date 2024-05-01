@@ -13,7 +13,7 @@ type ComboPageServerSideProps = {
 }
 
 // TODO: Implement when we have a combos by character endpoint
-const CombosPage = ({ characterName }: ComboPageServerSideProps) => {
+const CombosPage = ({ characterName, combos }: ComboPageServerSideProps) => {
 	return (
 		<div>
 			<div className="text-sm breadcrumbs ml-6 mt-5">
@@ -30,8 +30,8 @@ const CombosPage = ({ characterName }: ComboPageServerSideProps) => {
 					<li>Combos</li>
 				</ul>
 			</div>
-			{/* TODO: Hydrate with actual combos values */}
-			<CombosTable />
+			
+			<CombosTable  combos={combos}/>
 		</div>
 	)
 }
@@ -45,8 +45,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     	const characterObj = characters.find(c => c.name === character) || undefined;
 		const characterName = characterObj?.name
 
-		// TODO: Replace with a combos by character ID method
-		const combos: Combo[] = await fetchCombosByMoveId('518', Games.SF6)
+		const combos: Combo[] = await fetchCombosByMoveId('1183', Games.SF6)
 
 		console.log('combos', combos)
 		return {
