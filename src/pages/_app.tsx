@@ -35,8 +35,8 @@ class MyApp extends App<AppPropsWithLayout> {
 				// TODO replace with actual deployed url
 				// const ingestionEngineAPILocation =
 				// 	process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'http://localhost:3001'
-				const ingestionEngineAPILocation: string = os.hostname();
-				//const ingestionEngineAPILocation = process.env.USER_INGESTION_API_LOCATION!
+
+				const ingestionEngineAPILocation = process.env.USER_INGESTION_API_LOCATION!
 				console.log("ingestionEngineAPILocation="+ingestionEngineAPILocation)
 
 				const userDataPayload = {
