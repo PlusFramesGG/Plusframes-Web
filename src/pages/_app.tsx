@@ -36,6 +36,11 @@ class MyApp extends App<AppPropsWithLayout> {
 				// 	process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'http://localhost:3001'
 				const ingestionEngineAPILocation = process.env.USER_INGESTION_API_LOCATION!
 
+				// TODO patch for vercel no ingest
+				if (typeof ingestionEngineAPILocation === 'undefined') {
+					return {}
+				}
+
 				const userDataPayload = {
 					ip,
 					userAgent,
