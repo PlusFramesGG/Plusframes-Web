@@ -9,7 +9,6 @@ const DriveGaugeFilter = ({ defaultDriveMax, onDriveChange }: DriveGaugeFilterPr
   const [maxDrive, setDriveMax] = useState(defaultDriveMax);
 
   useEffect(() => {
-    console.log('maxDrive=', maxDrive); 
     onDriveChange(maxDrive); 
   }, [maxDrive]); 
 
@@ -28,7 +27,7 @@ const DriveGaugeFilter = ({ defaultDriveMax, onDriveChange }: DriveGaugeFilterPr
       justifyContent: 'center',
 
     }}>
-    <label>Drive:</label>
+    <label className="mr-2.5 font-sans text-base font-semibold leading-relaxed text-black">Drive:</label>
     <div style={{ display: 'flex', marginLeft: "20px" }}>
       {Array.from({ length: 6 }).map((_, index) => (
         <button

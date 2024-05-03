@@ -1,6 +1,7 @@
 import CombosTable from '@/components/Combo Builder/CombosTable'
 import MovesDropdown from '@/components/Combo Builder/MovesDropdown'
 import DriveGaugeFilter from '@/components/Combo Builder/SF6/DriveGaugeFilter'
+import SuperGaugeFilter from '@/components/Combo Builder/SF6/SuperGaugeFilter'
 import { characterIdMappingsByGame, characterDisplayNameMappingsByGame } from '@/shared/constants'
 import { Character, Combo, ComboFilter, Games, Move, defaultComboFilter } from '@/shared/types'
 import { fetchCombosByMoveId, fetchMovesByCharacterId, fetchCharacters } from '@/shared/utils'
@@ -38,6 +39,13 @@ const CombosPage = ({ characterName, character, defaultMove, defaultComboFilter 
 		  });
 	};
 
+	const handleSuperChange = async (newSuperMax: number) => {
+		updateCombFilter({
+			...currentComboFilter,
+			superMax: newSuperMax
+		  });
+	};
+
 	const updateCombos = async () => {
 		try {
             const fetchedCombos = await fetchCombosByMoveId(selectedMove.id, Games.SF6, currentComboFilter);
@@ -63,9 +71,16 @@ const CombosPage = ({ characterName, character, defaultMove, defaultComboFilter 
 					<li>Combos</li>
 				</ul>
 			</div>
-			<div className="relative flex flex-row bg-clip-border rounded-xl bg-white text-gray-700 shadow-md max-w-[90vw] mx-auto mt-10">
-				<MovesDropdown character={character} selectedMove={selectedMove} onMoveSelect={handleMoveSelect}/>
-				<DriveGaugeFilter defaultDriveMax={currentComboFilter.driveMax} onDriveChange={handleDriveChange}/>
+			<div className="relative flex flex-row items-center justify-between bg-clip-border rounded-xl bg-white text-gray shadow-md max-w-[90vw] mx-auto mt-10">
+				<div className="flex-1">
+					<MovesDropdown character={character} selectedMove={selectedMove} onMoveSelect={handleMoveSelect}/>
+				</div>
+				<div className="flex-1">
+					<DriveGaugeFilter defaultDriveMax={currentComboFilter.driveMax} onDriveChange={handleDriveChange}/>
+				</div>
+				<div className="flex-1">
+					<SuperGaugeFilter defaultSuperMax={currentComboFilter.superMax} onSuperChange={handleSuperChange}/>
+				</div>
 			</div>
 			<CombosTable  combos={combos}/>
 		</div>
