@@ -1,5 +1,5 @@
 import CombosTable from '@/components/Combo Builder/CombosTable'
-import MovesDropdown from '@/components/Combo Builder/MoveDropdown'
+import MovesDropdown from '@/components/Combo Builder/MovesDropdown'
 import { characterIdMappingsByGame, characterDisplayNameMappingsByGame } from '@/shared/constants'
 import { Character, Combo, Games, Move } from '@/shared/types'
 import { fetchCombosByMoveId, fetchMovesByCharacterId, fetchCharacters } from '@/shared/utils'
