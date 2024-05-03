@@ -4,15 +4,15 @@ import { NextApiRequest } from 'next'
 
 const handler = async (req: NextApiRequest, res: TypedResponse<Record<string, Combo[]>>) => {
 	const { method, body, query } = req
-	const moveId = query.moveId as string
+	const moveId = parseInt(query.moveId as string)
 	const game: Games = body.game ?? Games.SF6
 
-	if (!moveId) {
+	if (isNaN(moveId)) {
 		console.error('e', GeneralAPIResponses.FAILURE)
 		return res.status(400).json({
 			status: APIStatuses.ERROR,
 			type: GeneralAPIResponses.INVALID_REQUEST_TYPE,
-			data: { error: `Move ID not provided.` }
+			data: { error: `Move ID is invalid.` }
 		})
 	}
 
