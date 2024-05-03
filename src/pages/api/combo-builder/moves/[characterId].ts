@@ -5,10 +5,10 @@ import { NextApiRequest } from 'next'
 
 const handler = async (req: NextApiRequest, res: TypedResponse<Record<string, Move[]>>) => {
 	const { method, body } = req
-	const characterId = req.query.characterId as string
+	const characterId = parseInt(req.query.characterId as string)
 	const game: Games = body.game ?? Games.SF6
 
-	if (!characterId) {
+	if (isNaN(characterId)) {
 		console.error('e', GeneralAPIResponses.INVALID_REQUEST_TYPE)
 		return res.status(400).json({
 			status: APIStatuses.ERROR,

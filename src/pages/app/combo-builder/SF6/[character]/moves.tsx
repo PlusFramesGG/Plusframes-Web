@@ -45,7 +45,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
 		const character = context.query.character as string
 		const characterId = characterIdMappingsByGame.SF6[character]
 		const characterName = characterDisplayNameMappingsByGame.SF6[characterId]
-		const moves: Move[] = await fetchMovesByCharacterId(characterId.toString(), Games.SF6)
+		const moves: Move[] = await fetchMovesByCharacterId(characterId, Games.SF6)
 
 		return {
 			props: {
