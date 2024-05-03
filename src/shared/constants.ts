@@ -8,8 +8,8 @@ export const FIREBASE_MESSAGING_SENDER_ID = process.env.FIREBASE_MESSAGING_SENDE
 export const FIREBASE_APP_ID = process.env.FIREBASE_APP_ID!
 export const FIREBASE_MEASUREMENT_ID = process.env.FIREBASE_MEASUREMENT_ID!
 // TODO: Replace with game specific URLs
-export const SF6_URL = process.env.PF_API_BASE_URL!
-export const PF_API_BASE_URL = process.env.PF_API_BASE_URL!
+export const SF6_URL = process.env.NEXT_PUBLIC_PF_API_BASE_URL!
+export const PF_API_BASE_URL = process.env.NEXT_PUBLIC_PF_API_BASE_URL!
 
 export const defaultAppSettings: AppSettings = {
 	move_notation: MoveNotationTypes.NUMBER_COMMAND

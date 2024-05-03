@@ -1,8 +1,7 @@
 import { gameUrlMappings } from './constants'
 import { Character, Combo, ComboFilter, ComboUsage, Games, Move, MoveMapping, defaultComboFilter } from './types'
 
-export async function fetchMovesByCharacterId(characterId: string, game: Games): Promise<Move[]> {
-	console.log('url', `${gameUrlMappings[game]}`)
+export async function fetchMovesByCharacterId(characterId: number, game: Games): Promise<Move[]> {
 	const response = await fetch(`${gameUrlMappings[game]}/combo_routes/starters/${characterId}`)
 	return await response.json()
 }
@@ -12,7 +11,7 @@ export async function fetchCharactersByGame(game: Games): Promise<Character[]> {
 	return await response.json()
 }
 
-export async function fetchCombosByMoveId(moveId: string, game: Games, comboFilter: ComboFilter = defaultComboFilter): Promise<Combo[]> {
+export async function fetchCombosByMoveId(moveId: number, game: Games, comboFilter: ComboFilter = defaultComboFilter): Promise<Combo[]> {
 	const linkFilterArray = [
 		...(comboFilter?.showNormal ? ['n'] : []),
 		...(comboFilter?.showCH ? ['ch'] : []),
