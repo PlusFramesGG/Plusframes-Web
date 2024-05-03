@@ -27,7 +27,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, setIsOpen }) => {
 				<Link href="/" className="text-white text-[29px]">
 					<HolographicText onClick={() => setIsOpen(false)}>Home</HolographicText>
 				</Link>
-				<Link href="/app/combo-builder" className="text-white text-[29px]">
+				<Link href="/app/combo-builder/SF6/choose-your-character" className="text-white text-[29px]">
 					<HolographicText onClick={() => setIsOpen(false)}>Combo Builder</HolographicText>
 				</Link>
 				<Link href="/app/fantasy-league" className="text-white text-[29px]">

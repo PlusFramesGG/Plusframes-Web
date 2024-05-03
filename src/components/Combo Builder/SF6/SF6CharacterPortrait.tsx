@@ -13,7 +13,7 @@ const SF6CharacterPortrait = ({ characterName, game }: CharacterPortraitProps) =
 	// @ts-ignore
 	const imageSource = characterPortraitMappings.SF6.characterSelectPortraits[characterName]
 	return (
-		<Link className="z-0 hover:z-3" href={`/app/combo-builder/${game}/${characterName}`}>
+		<Link className="z-0 hover:z-3" href={`/app/combo-builder/${game}/${characterName}/combos`}>
 			<Image
 				className="z-0 transform transition duration-500 ease-in-out hover:scale-110"
 				height={330}
