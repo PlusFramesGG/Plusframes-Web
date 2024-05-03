@@ -1,29 +1,46 @@
 import CombosTable from '@/components/Combo Builder/CombosTable'
 import MovesDropdown from '@/components/Combo Builder/MovesDropdown'
+import DriveGaugeFilter from '@/components/Combo Builder/SF6/DriveGaugeFilter'
 import { characterIdMappingsByGame, characterDisplayNameMappingsByGame } from '@/shared/constants'
-import { Character, Combo, Games, Move } from '@/shared/types'
+import { Character, Combo, ComboFilter, Games, Move, defaultComboFilter } from '@/shared/types'
 import { fetchCombosByMoveId, fetchMovesByCharacterId, fetchCharacters } from '@/shared/utils'
 import { select } from '@material-tailwind/react'
 import { NextPageContext } from 'next'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 type ComboPageServerSideProps = {
 	characterName: string
 	character: Character,
 	defaultMove: Move,
+	defaultComboFilter: ComboFilter
 	error?: any
 }
 
 // TODO: Implement when we have a combos by character endpoint
-const CombosPage = ({ characterName, character, defaultMove }: ComboPageServerSideProps) => {
+const CombosPage = ({ characterName, character, defaultMove, defaultComboFilter }: ComboPageServerSideProps) => {
 	const [selectedMove, setSelectedMove] = useState<Move>(defaultMove);
+	const [currentComboFilter, updateCombFilter] = useState<ComboFilter>(defaultComboFilter);
 	const [combos, setCombos] = useState<Combo[]>([]);
+
+	useEffect(() => {
+		updateCombos(); 
+	}, [selectedMove, currentComboFilter]);
 
 	const handleMoveSelect = async (move: Move) => {
 		setSelectedMove(move);
+	};
+
+	const handleDriveChange = async (newDriveMax: number) => {
+		updateCombFilter({
+			...currentComboFilter,
+			driveMax: newDriveMax
+		  });
+	};
+
+	const updateCombos = async () => {
 		try {
-            const fetchedCombos = await fetchCombosByMoveId(move.id, Games.SF6);
+            const fetchedCombos = await fetchCombosByMoveId(selectedMove.id, Games.SF6, currentComboFilter);
             setCombos(fetchedCombos);
         } catch (error) {
             console.error('Failed to fetch combos:', error);
@@ -48,6 +65,7 @@ const CombosPage = ({ characterName, character, defaultMove }: ComboPageServerSi
 			</div>
 			<div className="relative flex flex-row bg-clip-border rounded-xl bg-white text-gray-700 shadow-md max-w-[90vw] mx-auto mt-10">
 				<MovesDropdown character={character} selectedMove={selectedMove} onMoveSelect={handleMoveSelect}/>
+				<DriveGaugeFilter defaultDriveMax={currentComboFilter.driveMax} onDriveChange={handleDriveChange}/>
 			</div>
 			<CombosTable  combos={combos}/>
 		</div>
@@ -85,6 +103,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
 				character,
 				defaultMove,
 				combos: combos,
+				defaultComboFilter,
 				error: null
 			}
 		}
