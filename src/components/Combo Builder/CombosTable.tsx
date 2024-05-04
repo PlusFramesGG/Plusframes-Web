@@ -1,12 +1,20 @@
 import React, { useState } from 'react'
 import { Combo } from '@/shared/types'
+import { useRouter } from 'next/router';
 
 // Inspo from https://demos.creative-tim.com/material-tailwind-dashboard-react/?_ga=2.34022373.538809748.1705091113-404594367.1704996279#/dashboard/tables
 type ComboTableProps = {
+	characterName: string,
 	combos: Combo[]
 }
 
-const CombosTable = ({combos}: ComboTableProps) => {
+const CombosTable = ({characterName, combos,}: ComboTableProps) => {
+	const router = useRouter();
+
+    const handleRowClick = (comboId: number) => {
+        const url = `/app/combo-builder/SF6/${characterName}/combo-usage/${comboId}`;
+        router.push(url);
+    };
 
 	return (
 		<div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md max-w-[90vw] mx-auto mt-10">
@@ -46,6 +54,8 @@ const CombosTable = ({combos}: ComboTableProps) => {
 					{combos.sort((a, b) => b.max_damage - a.max_damage).map(combo => (
 						<tr 
 							key={combo.id}
+							onClick={() => handleRowClick(combo.id)}
+							className="cursor-pointer"
 						>
 						<td className="py-3 px-5 border-b border-blue-gray-50 w-1/4">
 							<p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">

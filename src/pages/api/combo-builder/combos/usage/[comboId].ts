@@ -5,7 +5,7 @@ import { NextApiRequest } from 'next'
 const handler = async (req: NextApiRequest, res: TypedResponse<Record<string, ComboUsage>>) => {
 	const { method, body } = req
 	const game: Games = body.game ?? Games.SF6
-	const comboId = req.query.comboId as string
+	const comboId = parseInt(req.query.comboId as string)
 
 	if (!comboId) {
 		console.error('e', GeneralAPIResponses.FAILURE)

@@ -45,7 +45,7 @@ export async function fetchMoveMappings(): Promise<MoveMapping[]> {
 }
 
 // Fetch combo usage function
-export async function fetchComboUsage(comboId: string, game: Games): Promise<ComboUsage> {
+export async function fetchComboUsage(comboId: number, game: Games): Promise<ComboUsage> {
 	const apiResponse = await fetch(`${gameUrlMappings[game]}/combo_usage/${comboId}`)
 	return await apiResponse.json()
 }

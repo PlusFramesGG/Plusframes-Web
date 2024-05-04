@@ -63,7 +63,7 @@ const CombosPage = ({ characterName, character, defaultMove, defaultComboFilter 
 						<Link href="/app">Home</Link>
 					</li>
 					<li>
-						<Link href="/app/combo-builder">Combo Builder</Link>
+						<Link href="/app/combo-builder/SF6/choose-your-character">Combo Builder</Link>
 					</li>
 					<li>
 						<Link href={`/app/combo-builder/SF6/${characterName}`}>{characterName}</Link>
@@ -82,7 +82,7 @@ const CombosPage = ({ characterName, character, defaultMove, defaultComboFilter 
 					<SuperGaugeFilter defaultSuperMax={currentComboFilter.superMax} onSuperChange={handleSuperChange}/>
 				</div>
 			</div>
-			<CombosTable  combos={combos}/>
+			<CombosTable  characterName={characterName} combos={combos}/>
 		</div>
 	)
 }
