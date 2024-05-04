@@ -107,7 +107,12 @@ export const getServerSideProps = async (context: NextPageContext) => {
             throw new Error(`No moves found for character: ${characterName}`);
         }
 
-        const defaultMove = moves[0];  // Assuming moves are sorted or the first move is the one you want
+        // const defaultMove = moves[0];  // Assuming moves are sorted or the first move is the one you want
+		const defaultMove = moves.reduce((smallest, current) => {
+			if (current.startup === null) return smallest;  
+			if (smallest.startup === null) return current;  
+			return current.startup < smallest.startup ? current : smallest;
+		}, moves[0]);
 		
 		const combos: Combo[] = await fetchCombosByMoveId(1183, Games.SF6)
 		console.log("combos.tsx Character on load: ", character);
