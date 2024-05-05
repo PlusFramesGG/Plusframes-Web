@@ -1,25 +1,59 @@
-import React, { useState } from 'react'
-import { Combo } from '@/shared/types'
+import React, { useEffect, useState } from 'react'
+import { Combo, PFUserFavoriteCombos } from '@/shared/types'
 import { useRouter } from 'next/router';
 import { StarIcon } from '@heroicons/react/20/solid'
-import { useUser } from '@clerk/nextjs';
+import { useSession, useUser } from '@clerk/nextjs';
+import { PF_API_BASE_URL } from '@/shared/constants';
+import { addComboFavorites, deleteComboFavorites, fetchComboFavorites } from '@/shared/utils';
 
 // Inspo from https://demos.creative-tim.com/material-tailwind-dashboard-react/?_ga=2.34022373.538809748.1705091113-404594367.1704996279#/dashboard/tables
 type ComboTableProps = {
 	characterName: string,
-	combos: Combo[]
+	combos: Combo[],
 }
 
-const CombosTable = ({characterName, combos,}: ComboTableProps) => {
+const CombosTable = ({characterName, combos}: ComboTableProps) => {
+	const [favoriteCombos, updateFavoriteCombos] = useState<PFUserFavoriteCombos>({comboIds: []}) 
+
 	const router = useRouter();
 	const { user } = useUser();
+	const { session } = useSession();
+
+	useEffect(() => {
+		const fetchData = async () => {
+			if (user && session) {
+				const sessionToken = await session.getToken();
+				if (sessionToken) {
+					updateFavoriteCombos(await fetchComboFavorites(user.id, sessionToken));
+				}
+			} 
+		}
+		fetchData();
+	}, [user]);
 
     const handleComboClick = (comboId: number) => {
         const url = `/app/combo-builder/SF6/${characterName}/combo-usage/${comboId}`;
         router.push(url);
     };
 
-	const handleFavoriteClick = (comboId: number) => {
+	const handleFavoriteClick = async (comboId: number) => {
+		if (user && session) {
+			const sessionToken = await session.getToken();
+			if (sessionToken) {
+				if (favoriteCombos.comboIds.includes(comboId)) { 	// if favorite exists add
+					await addComboFavorites(user.id, comboId, sessionToken);
+					updateFavoriteCombos({
+						...favoriteCombos,
+						comboIds: favoriteCombos.comboIds.filter(id => id !== comboId)
+					});
+				} else {  // else delete favorite
+					await deleteComboFavorites(user.id, comboId, sessionToken);
+					updateFavoriteCombos({ ...favoriteCombos, comboIds: [...favoriteCombos.comboIds, comboId] });
+				}
+			}
+		} else {
+			// TODO redirect to login
+		}
     };
 
 	return (
@@ -60,7 +94,8 @@ const CombosTable = ({characterName, combos,}: ComboTableProps) => {
 						</tr>
 					</thead>
 					<tbody>
-					{combos.sort((a, b) => b.max_damage - a.max_damage).map(combo => (
+					{combos.sort((a, b) => b.max_damage - a.max_damage).map(combo => {
+					return (
 						<tr 
 							key={combo.id}
 						>
@@ -94,14 +129,14 @@ const CombosTable = ({characterName, combos,}: ComboTableProps) => {
 							onClick={() => handleFavoriteClick(combo.id)}
 							className="cursor-pointer py-3 px-5 border-b border-blue-gray-50 w-1/4"
 						>
-							{user ? (
+							{favoriteCombos?.comboIds && favoriteCombos.comboIds.includes(combo.id) ? (
 								<StarIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
 							):(
 								<StarIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
 							)}
 						</td>
 					</tr>
-					))}
+					)})}
 					</tbody>
 				</table>
 			</div>

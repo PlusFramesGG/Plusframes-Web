@@ -1,5 +1,5 @@
-import { gameUrlMappings } from './constants'
-import { Character, Combo, ComboFilter, ComboUsage, Games, Move, MoveMapping, defaultComboFilter } from './types'
+import { PF_API_BASE_URL, gameUrlMappings } from './constants'
+import { Character, Combo, ComboFilter, ComboUsage, Games, Move, MoveMapping, PFUserFavoriteCombo, PFUserFavoriteCombos, defaultComboFilter } from './types'
 
 export async function fetchMovesByCharacterId(characterId: number, game: Games): Promise<Move[]> {
 	const response = await fetch(`${gameUrlMappings[game]}/combo_routes/starters/${characterId}`)
@@ -50,6 +50,48 @@ export async function fetchComboUsage(comboId: number, game: Games): Promise<Com
 export async function fetchCharacters(game: Games): Promise<Character[]> {
 	const apiResponse = await fetch(`${gameUrlMappings[game]}/characters`)
 	return await apiResponse.json()
+}
+
+
+export async function fetchComboFavorites(userId: string, sessionToken: string ): Promise<PFUserFavoriteCombos> {
+	const response = await fetch(`${PF_API_BASE_URL}/users/combos/favorites/${userId}`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `Bearer ${sessionToken}`,
+			'Content-Type': 'application/json'
+		}
+	})
+	const resq = await response.json();
+	return resq.data as PFUserFavoriteCombos 
+}
+
+
+export async function addComboFavorites(userId: string, comboId: number, sessionToken: string ): Promise<PFUserFavoriteCombo> {
+	const url = new URL(`${PF_API_BASE_URL}/users/combos/favorites/${userId}`);
+	url.searchParams.append('comboId', comboId.toString());
+
+	const response = await fetch(url, {
+		method: 'PUT',
+		headers: {
+			'Authorization': `Bearer ${sessionToken}`,
+			'Content-Type': 'application/json'
+		}
+	})
+	return await response.json()
+}
+
+export async function deleteComboFavorites(userId: string, comboId: number, sessionToken: string ): Promise<PFUserFavoriteCombo> {
+	const url = new URL(`${PF_API_BASE_URL}/users/combos/favorites/${userId}`);
+	url.searchParams.append('comboId', comboId.toString());
+
+	const response = await fetch(url, {
+		method: 'DELETE',
+		headers: {
+			'Authorization': `Bearer ${sessionToken}`,
+			'Content-Type': 'application/json'
+		}
+	})
+	return await response.json()
 }
 
 

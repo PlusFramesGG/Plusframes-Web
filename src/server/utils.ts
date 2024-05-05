@@ -46,10 +46,10 @@ export async function getUserComboFavorites(userId: string): Promise<PFUserFavor
     const collectionRef = collection(db, CollectionNames.PFUSERS_FAVORITE_COMBOS);
 
     try {
-        const userQuery = query(collectionRef, where("userid", "==", userId));
+        const userQuery = query(collectionRef, where("userId", "==", userId));
         const querySnapshot = await getDocs(userQuery);
         const favorites: PFUserFavoriteCombos = {
-            comboId: querySnapshot.docs.map(doc => doc.data().comboId)
+            comboIds: querySnapshot.docs.map(doc => doc.data().comboId)
         };
         return favorites;
     } catch (e) {

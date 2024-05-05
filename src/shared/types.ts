@@ -88,7 +88,7 @@ export type PFUser = {
 }
 
 export type PFUserFavoriteCombos = {
-	comboId: number[];
+	comboIds: number[];
 }
 
 export type PFUserFavoriteCombo = {

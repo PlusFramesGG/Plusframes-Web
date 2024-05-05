@@ -3,7 +3,7 @@ import MovesDropdown from '@/components/Combo Builder/MovesDropdown'
 import DriveGaugeFilter from '@/components/Combo Builder/SF6/DriveGaugeFilter'
 import SuperGaugeFilter from '@/components/Combo Builder/SF6/SuperGaugeFilter'
 import { characterIdMappingsByGame, characterDisplayNameMappingsByGame, PF_API_BASE_URL } from '@/shared/constants'
-import { Character, Combo, ComboFilter, Games, Move, defaultComboFilter } from '@/shared/types'
+import { Character, Combo, ComboFilter, Games, Move, PFUserFavoriteCombos, defaultComboFilter } from '@/shared/types'
 import { fetchCombosByMoveId, fetchMovesByCharacterId, fetchCharacters } from '@/shared/utils'
 import { select } from '@material-tailwind/react'
 import { GetServerSideProps, NextPageContext } from 'next'
@@ -17,7 +17,7 @@ type ComboPageServerSideProps = {
 	characterName: string
 	character: Character,
 	defaultMove: Move,
-	defaultComboFilter: ComboFilter
+	defaultComboFilter: ComboFilter,
 	error?: any
 }
 
@@ -26,29 +26,6 @@ const CombosPage = ({ characterName, character, defaultMove, defaultComboFilter 
 	const [selectedMove, setSelectedMove] = useState<Move>(defaultMove);
 	const [currentComboFilter, updateCombFilter] = useState<ComboFilter>(defaultComboFilter);
 	const [combos, setCombos] = useState<Combo[]>([]);
-
-	const { user } = useUser();
-	const { session } = useSession();
-
-	useEffect(() => {
-		const fetchData = async () => {
-			if (user && session ) {
-				console.log('User is signed in:', user);
-				console.log('`${PF_API_BASE_URL}/users/${user.id}`',`${PF_API_BASE_URL}/users/${user.id}`,)
-				const response = await fetch(`${PF_API_BASE_URL}/users/${user.id}`, {
-					method: 'GET',
-					headers: {
-						'Authorization': `Bearer ${await session.getToken()}`,
-						'Content-Type': 'application/json'
-					}
-				})
-				console.log(await response.json())
-			} else {
-				console.log('User is not signed in.');
-			}
-		}
-		fetchData();
-	}, [user]);
 
 	useEffect(() => {
 		updateCombos(); 
@@ -108,7 +85,7 @@ const CombosPage = ({ characterName, character, defaultMove, defaultComboFilter 
 					<SuperGaugeFilter defaultSuperMax={currentComboFilter.superMax} onSuperChange={handleSuperChange}/>
 				</div>
 			</div>
-			<CombosTable  characterName={characterName} combos={combos}/>
+			<CombosTable  characterName={characterName} combos={combos} />
 		</div>
 	)
 }
@@ -117,12 +94,8 @@ export default CombosPage
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	try {
-		const auth = getAuth(context.req);
-		if (auth) {
-			// console.log("WE AUTH HERE")
-			// console.log('auth',auth)
-		}
-
+		const { userId, sessionId, getToken } = await getAuth(context.req);
+		
 		const characterString = context.query.character as string
 		const characters = await fetchCharacters(Games.SF6);
 		
