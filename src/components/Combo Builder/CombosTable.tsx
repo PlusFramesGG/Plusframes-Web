@@ -19,6 +19,7 @@ const CombosTable = ({characterName, combos}: ComboTableProps) => {
 	const { user } = useUser();
 	const { session } = useSession();
 
+	// load user data
 	useEffect(() => {
 		const fetchData = async () => {
 			if (user && session) {
@@ -30,6 +31,21 @@ const CombosTable = ({characterName, combos}: ComboTableProps) => {
 		}
 		fetchData();
 	}, [user, session]);
+
+	// handle redirect case
+	// TODO fix this, something in clerk login is stopping redirect
+	useEffect(() => {
+		const favComboId = Array.isArray(router.query.favComboId) ? router.query.favComboId[0] : router.query.favComboId ?? '';
+		const comboId = parseInt(favComboId, 10);
+	
+		if (user && !isNaN(comboId)) {
+			handleFavoriteClick(comboId);  // handle favorite in url
+	
+			// remove the favComboId query parameter, no refresh
+			const { favComboId, ...restQuery } = router.query;
+			router.replace({ pathname: router.pathname, query: restQuery }, undefined, { shallow: true });
+		}
+	}, [user, router]);
 
     const handleComboClick = (comboId: number) => {
         const url = `/app/combo-builder/SF6/${characterName}/combo-usage/${comboId}`;
@@ -52,8 +68,10 @@ const CombosTable = ({characterName, combos}: ComboTableProps) => {
 				}
 			}
 		} else {
-			const url = `/sign-in`;
-        	router.push(url);
+			// Construct the return URL including the current page and comboId as parameters
+			const returnUrl = encodeURIComponent(`${router.asPath}?favComboId=${comboId}`);
+			const url = `/sign-in?returnUrl=${returnUrl}`;
+			router.push(url);
 		}
     };
 
