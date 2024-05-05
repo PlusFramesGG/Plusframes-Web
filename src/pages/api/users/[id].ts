@@ -9,14 +9,13 @@ import {
 	PFUser,
 	TypedResponse
 } from '@/shared/types'
-import { createUserIfNotExists } from '@/shared/utils';
+import { createUserIfNotExists } from '@/server/utils';
 import { getAuth } from '@clerk/nextjs/server';
-import { collection, deleteDoc, getDoc, getDocs, getFirestore, query, updateDoc, where } from 'firebase/firestore'
+import { DocumentData, DocumentReference, collection, deleteDoc, getDoc, getDocs, getFirestore, query, updateDoc, where } from 'firebase/firestore'
 import { NextApiRequest } from 'next'
 
 // TODO: Long term we want to add payload shape verification
 const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
-	console.log("Authorization Header:", req.headers.authorization);
 	const { method } = req
 	const { id } = req.query
 
@@ -29,14 +28,9 @@ const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
 		})
 	}
 
-	// const user = await currentUser()
 	const auth = getAuth(req);
 
 	if (!auth || !auth.userId) {
-		console.log("no auth here")
-		// console.log("req",req);
-		// console.log("auth",auth);
-		console.error('e', GeneralAPIResponses.UNAUTHORIZED)
 		return res.status(400).json({
 			status: APIStatuses.ERROR,
 			type: GeneralAPIResponses.UNAUTHORIZED,
@@ -49,24 +43,33 @@ const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
 		const usersCollectionRef = collection(db, CollectionNames.USERS)
 		const q = query(usersCollectionRef, where('clerkId', '==', id))
 		let querySnapshot = await getDocs(q)
+		// let userDocumentRef: DocumentReference;
+
+		let userDocumentRef: DocumentReference<DocumentData>;  // No need to allow null here
 
 		if (querySnapshot.empty) {
-			console.log("empty..")
-			createUserIfNotExists(auth.userId)
-			querySnapshot = await getDocs(q)
+			console.log("No user found, attempting to create one...");
+			userDocumentRef = await createUserIfNotExists(auth.userId);
+
+			if (!userDocumentRef) {
+				throw new Error('Failed to create user.');
+			}
+
+			querySnapshot = await getDocs(q);  // Optionally re-fetch the snapshot
+		} else {
+			userDocumentRef = querySnapshot.docs[0].ref;
 		}
 
-		const user = querySnapshot.docs[0].data() as PFUser
-		const userDocumentRef = querySnapshot.docs[0].ref
+		const user = (await getDoc(userDocumentRef)).data() as PFUser | undefined;
 
 		if (method === APIMethods.GET) {
-			console.log("querySnapshot", querySnapshot)
 			return res.status(200).json({
 				status: APIStatuses.SUCCESS,
 				type: DocumentResponses.DATA_FOUND,
 				data: { user: { ...user, id: querySnapshot.docs[0].id } }
 			})
 		} else if (method === APIMethods.DELETE) {
+			// THIS will fail because of Firebase permissions
 			await deleteDoc(userDocumentRef)
 			return res.status(200).json({ status: APIStatuses.SUCCESS, type: DocumentResponses.DATA_DELETED })
 		} else if (method == APIMethods.PATCH) {

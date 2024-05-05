@@ -86,6 +86,11 @@ export type PFUser = {
 	username: string
 }
 
+export type PFUserFavoriteCombo = {
+	userid: string;
+	comboId: number;
+}
+
 // TODO: Implement update methods
 export enum TypeOfPerson {
 	ADMIN = 'ADMIN',
