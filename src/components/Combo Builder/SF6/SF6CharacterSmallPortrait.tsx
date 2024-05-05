@@ -4,20 +4,21 @@ import { characterPortraitMappings } from '@/shared/constants'
 import { Games } from '@/shared/types'
 import Link from 'next/link'
 
-type CharacterPortraitProps = {
+type SF6CharacterSmallPortrait = {
 	characterName: string
-	game: Games
+	game: Games,
+    size: number
 }
 
-const SF6CharacterPortrait = ({ characterName, game }: CharacterPortraitProps) => {
+const SF6CharacterSmallPortrait = ({ characterName, game, size }: SF6CharacterSmallPortrait) => {
 	// @ts-ignore
-	const imageSource = characterPortraitMappings.SF6.characterSelectPortraits[characterName]
+	const imageSource = characterPortraitMappings.SF6.portraits[characterName]
 	return (
 		<Link className="z-0 hover:z-3" href={`/app/combo-builder/${game}/${characterName}/combos`}>
 			<Image
 				className="z-0 transform transition duration-500 ease-in-out hover:scale-110"
-				height={330}
-				width={304}
+				height={size}
+				width={size}
 				src={imageSource}
 				alt={`${characterName}'s character portrait`}
 			/>
@@ -25,4 +26,4 @@ const SF6CharacterPortrait = ({ characterName, game }: CharacterPortraitProps) =
 	)
 }
 
-export default SF6CharacterPortrait
+export default SF6CharacterSmallPortrait

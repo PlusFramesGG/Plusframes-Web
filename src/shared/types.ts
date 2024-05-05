@@ -19,7 +19,8 @@ export enum GeneralAPIResponses {
 	FAILURE = 'FAILURE',
 	INVALID_REQUEST_TYPE = 'INVALID_REQUEST_TYPE',
 	UNAUTHORIZED = 'UNAUTHORIZED',
-	NOT_FOUND = 'NOT_FOUND'
+	NOT_FOUND = 'NOT_FOUND',
+	DATA_ALREADY_EXISTS = "DATA_ALREADY_EXISTS"
 }
 
 export enum Games {
@@ -37,7 +38,8 @@ export enum DocumentResponses {
 }
 
 export enum CollectionNames {
-	USERS = 'users'
+	PFUSERS = 'pfusers',
+	PFUSERS_FAVORITE_COMBOS = 'pfusers_favorite_combos'
 }
 
 // Auth Specific Enums
@@ -83,6 +85,15 @@ export type PFUser = {
 	firstName: string
 	lastName: string
 	username: string
+}
+
+export type PFUserFavoriteCombos = {
+	comboIds: number[];
+}
+
+export type PFUserFavoriteCombo = {
+	userId: string
+	comboId: number;
 }
 
 // TODO: Implement update methods

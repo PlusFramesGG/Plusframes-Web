@@ -1,5 +1,5 @@
 import firebase_app from '@/lib/firebase'
-import { PF_API_BASE_URL } from '@/shared/constants';
+
 import {
 	APIMethods,
 	APIStatuses,
@@ -7,17 +7,18 @@ import {
 	DocumentResponses,
 	GeneralAPIResponses,
 	PFUser,
+	PFUserFavoriteCombo,
+	PFUserFavoriteCombos,
 	TypedResponse
 } from '@/shared/types'
-import { createUserIfNotExists } from '@/server/utils';
+import { addUserComboFavorites, createUserIfNotExists, getUserComboFavorites, removeUserComboFavorites } from '@/server/utils';
 import { getAuth } from '@clerk/nextjs/server';
 import { DocumentData, DocumentReference, collection, deleteDoc, getDoc, getDocs, getFirestore, query, updateDoc, where } from 'firebase/firestore'
 import { NextApiRequest } from 'next'
 
-// TODO: Long term we want to add payload shape verification
-const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
+const handler = async (req: NextApiRequest, res: TypedResponse<PFUserFavoriteCombo|PFUserFavoriteCombos>) => {
 	const { method } = req
-	const { id } = req.query
+	const { id, comboId } = req.query
 
 	if (!id) {
 		console.error('e', GeneralAPIResponses.INVALID_REQUEST_TYPE)
@@ -25,6 +26,15 @@ const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
 			status: APIStatuses.ERROR,
 			type: GeneralAPIResponses.INVALID_REQUEST_TYPE,
 			data: { error: `No clerk id passed to request.` }
+		})
+	}
+	if (!comboId && ((method === APIMethods.DELETE) || (method === APIMethods.PUT))) {
+		
+		console.error('e', GeneralAPIResponses.INVALID_REQUEST_TYPE)
+		return res.status(400).json({
+			status: APIStatuses.ERROR,
+			type: GeneralAPIResponses.INVALID_REQUEST_TYPE,
+			data: { error: `No combo id passed to request.` }
 		})
 	}
 
@@ -48,7 +58,6 @@ const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
 		let userDocumentRef: DocumentReference<DocumentData>;  // No need to allow null here
 
 		if (querySnapshot.empty) {
-			console.log("No user found, attempting to create one...");
 			userDocumentRef = await createUserIfNotExists(auth.userId);
 
 			if (!userDocumentRef) {
@@ -60,27 +69,25 @@ const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
 			userDocumentRef = querySnapshot.docs[0].ref;
 		}
 
-		const user = (await getDoc(userDocumentRef)).data() as PFUser | undefined;
+		const user = (await getDoc(userDocumentRef)).data() as PFUser;
+        if (!user.id) {
+            throw Error("User document has no id")
+        }
 
 		if (method === APIMethods.GET) {
 			return res.status(200).json({
 				status: APIStatuses.SUCCESS,
 				type: DocumentResponses.DATA_FOUND,
-				data: { user: { ...user, id: querySnapshot.docs[0].id } }
+				data: await getUserComboFavorites(user.id)
 			})
 		} else if (method === APIMethods.DELETE) {
-			// THIS will fail because of Firebase permissions
-			await deleteDoc(userDocumentRef)
-			return res.status(200).json({ status: APIStatuses.SUCCESS, type: DocumentResponses.DATA_DELETED })
-		} else if (method == APIMethods.PATCH) {
-			const updatedData = req.body
-			await updateDoc(userDocumentRef, updatedData)
-			const result = await getDoc(userDocumentRef)
-			const document = result.data()
-
+			const result = await removeUserComboFavorites(user.id, parseInt(comboId as string))
+			return res.status(200).json({ status: APIStatuses.SUCCESS, type: DocumentResponses.DATA_DELETED, data: result })
+		} else if (method == APIMethods.PUT) {
+			const result = await addUserComboFavorites(user.id, parseInt(comboId as string))
 			return res
 				.status(200)
-				.json({ status: APIStatuses.SUCCESS, type: DocumentResponses.DATA_UPDATED, data: { user: document } })
+				.json({ status: APIStatuses.SUCCESS, type: DocumentResponses.DATA_CREATED, data: result })
 		} else {
 			return res.status(404).json({ status: APIStatuses.ERROR, type: GeneralAPIResponses.INVALID_REQUEST_TYPE })
 		}

@@ -22,7 +22,9 @@ const firebaseConfig = {
 	measurementId: FIREBASE_MEASUREMENT_ID
 }
 
+
+// TODO add firebase-admin to secure firestore
 const firebase_app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0]
-export const analytics = getAnalytics(firebase_app)
+// export const analytics = getAnalytics(firebase_app)
 
 export default firebase_app
