@@ -54,6 +54,7 @@ export async function fetchCharacters(game: Games): Promise<Character[]> {
 
 
 export async function fetchComboFavorites(userId: string, sessionToken: string ): Promise<PFUserFavoriteCombos> {
+	console.log("sessionToken",sessionToken)
 	const response = await fetch(`${PF_API_BASE_URL}/users/combos/favorites/${userId}`, {
 		method: 'GET',
 		headers: {
@@ -70,6 +71,7 @@ export async function addComboFavorites(userId: string, comboId: number, session
 	const url = new URL(`${PF_API_BASE_URL}/users/combos/favorites/${userId}`);
 	url.searchParams.append('comboId', comboId.toString());
 
+	console.log("sessionToken",sessionToken)
 	const response = await fetch(url, {
 		method: 'PUT',
 		headers: {
@@ -81,6 +83,7 @@ export async function addComboFavorites(userId: string, comboId: number, session
 }
 
 export async function deleteComboFavorites(userId: string, comboId: number, sessionToken: string ): Promise<PFUserFavoriteCombo> {
+	console.log("sessionToken",sessionToken)
 	const url = new URL(`${PF_API_BASE_URL}/users/combos/favorites/${userId}`);
 	url.searchParams.append('comboId', comboId.toString());
 

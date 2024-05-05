@@ -37,6 +37,10 @@ const handler = async (req: NextApiRequest, res: TypedResponse<PFUserFavoriteCom
 			data: { error: `No combo id passed to request.` }
 		})
 	}
+	const authorizationHeader = req.headers['authorization'];
+
+	console.log("authorizationHeader",authorizationHeader)
+
 
 	const auth = getAuth(req);
 
