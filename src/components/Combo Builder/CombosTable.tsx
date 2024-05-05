@@ -29,7 +29,7 @@ const CombosTable = ({characterName, combos}: ComboTableProps) => {
 			} 
 		}
 		fetchData();
-	}, [user]);
+	}, [user, session]);
 
     const handleComboClick = (comboId: number) => {
         const url = `/app/combo-builder/SF6/${characterName}/combo-usage/${comboId}`;
@@ -40,19 +40,20 @@ const CombosTable = ({characterName, combos}: ComboTableProps) => {
 		if (user && session) {
 			const sessionToken = await session.getToken();
 			if (sessionToken) {
-				if (favoriteCombos.comboIds.includes(comboId)) { 	// if favorite exists add
-					await addComboFavorites(user.id, comboId, sessionToken);
+				if (favoriteCombos.comboIds.includes(comboId)) { 	// if favorite exists delete
+					const resp = await deleteComboFavorites(user.id, comboId, sessionToken);
 					updateFavoriteCombos({
 						...favoriteCombos,
 						comboIds: favoriteCombos.comboIds.filter(id => id !== comboId)
 					});
-				} else {  // else delete favorite
-					await deleteComboFavorites(user.id, comboId, sessionToken);
+				} else {  // else add favorite
+					const resp = await addComboFavorites(user.id, comboId, sessionToken);
 					updateFavoriteCombos({ ...favoriteCombos, comboIds: [...favoriteCombos.comboIds, comboId] });
 				}
 			}
 		} else {
-			// TODO redirect to login
+			const url = `/sign-in`;
+        	router.push(url);
 		}
     };
 
