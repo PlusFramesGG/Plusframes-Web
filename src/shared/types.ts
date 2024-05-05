@@ -38,7 +38,8 @@ export enum DocumentResponses {
 }
 
 export enum CollectionNames {
-	USERS = 'users'
+	PFUSERS = 'pfusers',
+	PFUSERS_FAVORITE_COMBOS = 'pfusers_favorite_combos'
 }
 
 // Auth Specific Enums
@@ -86,8 +87,12 @@ export type PFUser = {
 	username: string
 }
 
+export type PFUserFavoriteCombos = {
+	comboId: number[];
+}
+
 export type PFUserFavoriteCombo = {
-	userid: string;
+	userId: string
 	comboId: number;
 }
 

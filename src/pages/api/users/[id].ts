@@ -40,7 +40,7 @@ const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
 
 	try {
 		const db = getFirestore(firebase_app)
-		const usersCollectionRef = collection(db, CollectionNames.USERS)
+		const usersCollectionRef = collection(db, CollectionNames.PFUSERS)
 		const q = query(usersCollectionRef, where('clerkId', '==', id))
 		let querySnapshot = await getDocs(q)
 		// let userDocumentRef: DocumentReference;

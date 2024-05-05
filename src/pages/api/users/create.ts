@@ -17,7 +17,7 @@ import { getFirestore, collection, addDoc, query, where, getDocs } from 'firebas
 const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
 	const { method, body } = req
 	const db = getFirestore(firebase_app)
-	const collectionRef = collection(db, CollectionNames.USERS)
+	const collectionRef = collection(db, CollectionNames.PFUSERS)
 
 	if (method !== APIMethods.POST) {
 		return res.status(404).json({ status: APIStatuses.ERROR, type: GeneralAPIResponses.INVALID_REQUEST_TYPE })
