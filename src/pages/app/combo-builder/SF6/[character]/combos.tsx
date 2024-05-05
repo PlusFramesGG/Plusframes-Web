@@ -2,13 +2,16 @@ import CombosTable from '@/components/Combo Builder/CombosTable'
 import MovesDropdown from '@/components/Combo Builder/MovesDropdown'
 import DriveGaugeFilter from '@/components/Combo Builder/SF6/DriveGaugeFilter'
 import SuperGaugeFilter from '@/components/Combo Builder/SF6/SuperGaugeFilter'
-import { characterIdMappingsByGame, characterDisplayNameMappingsByGame } from '@/shared/constants'
+import { characterIdMappingsByGame, characterDisplayNameMappingsByGame, PF_API_BASE_URL } from '@/shared/constants'
 import { Character, Combo, ComboFilter, Games, Move, defaultComboFilter } from '@/shared/types'
 import { fetchCombosByMoveId, fetchMovesByCharacterId, fetchCharacters } from '@/shared/utils'
 import { select } from '@material-tailwind/react'
-import { NextPageContext } from 'next'
+import { GetServerSideProps, NextPageContext } from 'next'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+import { getAuth } from '@clerk/nextjs/server';
+import { useUser, useSession } from '@clerk/nextjs'
+
 
 type ComboPageServerSideProps = {
 	characterName: string
@@ -23,6 +26,29 @@ const CombosPage = ({ characterName, character, defaultMove, defaultComboFilter 
 	const [selectedMove, setSelectedMove] = useState<Move>(defaultMove);
 	const [currentComboFilter, updateCombFilter] = useState<ComboFilter>(defaultComboFilter);
 	const [combos, setCombos] = useState<Combo[]>([]);
+
+	const { user } = useUser();
+	const { session } = useSession();
+
+	useEffect(() => {
+		const fetchData = async () => {
+			if (user && session ) {
+				console.log('User is signed in:', user);
+				console.log('`${PF_API_BASE_URL}/users/${user.id}`',`${PF_API_BASE_URL}/users/${user.id}`,)
+				const response = await fetch(`${PF_API_BASE_URL}/users/${user.id}`, {
+					method: 'GET',
+					headers: {
+						'Authorization': `Bearer ${await session.getToken()}`,
+						'Content-Type': 'application/json'
+					}
+				})
+				console.log(await response.json())
+			} else {
+				console.log('User is not signed in.');
+			}
+		}
+		fetchData();
+	}, [user]);
 
 	useEffect(() => {
 		updateCombos(); 
@@ -89,8 +115,14 @@ const CombosPage = ({ characterName, character, defaultMove, defaultComboFilter 
 
 export default CombosPage
 
-export const getServerSideProps = async (context: NextPageContext) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
 	try {
+		const auth = getAuth(context.req);
+		if (auth) {
+			// console.log("WE AUTH HERE")
+			// console.log('auth',auth)
+		}
+
 		const characterString = context.query.character as string
 		const characters = await fetchCharacters(Games.SF6);
 		
@@ -115,7 +147,6 @@ export const getServerSideProps = async (context: NextPageContext) => {
 		}, moves[0]);
 		
 		const combos: Combo[] = await fetchCombosByMoveId(1183, Games.SF6)
-		console.log("combos.tsx Character on load: ", character);
 
 		return {
 			props: {

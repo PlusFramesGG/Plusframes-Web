@@ -1,5 +1,10 @@
+import firebase_app from '@/lib/firebase'
+import { getAuth } from '@clerk/nextjs/dist/types/server-helpers.server'
+import { getFirestore, collection, query, where, getDocs, addDoc, updateDoc } from 'firebase/firestore'
+import { NextRequest } from 'next/server'
 import { gameUrlMappings } from './constants'
-import { Character, Combo, ComboFilter, ComboUsage, Games, Move, MoveMapping, defaultComboFilter } from './types'
+import { Character, CollectionNames, Combo, ComboFilter, ComboUsage, Games, Move, MoveMapping, PFUser, UserRoles, defaultComboFilter } from './types'
+import { IncomingMessage } from 'http'
 
 export async function fetchMovesByCharacterId(characterId: number, game: Games): Promise<Move[]> {
 	const response = await fetch(`${gameUrlMappings[game]}/combo_routes/starters/${characterId}`)
@@ -28,10 +33,6 @@ export async function fetchCombosByMoveId(moveId: number, game: Games, comboFilt
 	// Append linkFilter array elements individually
 	linkFilterArray.forEach((filter) => params.append('linkFilter[]', filter))
 
-	console.log(
-		'`${gameUrlMappings[game]}/combo_routes/${moveId}?${params}`',
-		`${gameUrlMappings[game]}/combo_routes/${moveId}?${params}`
-	)
 	const url = `${gameUrlMappings[game]}/combo_routes/${moveId}?${params}`
 	const response = await fetch(url)
 	return await response.json()
@@ -55,3 +56,46 @@ export async function fetchCharacters(game: Games): Promise<Character[]> {
 	const apiResponse = await fetch(`${gameUrlMappings[game]}/characters`)
 	return await apiResponse.json()
 }
+
+
+//
+export async function createUserIfNotExists(userId: string) {
+	console.log("creating user")
+	const db = getFirestore(firebase_app)
+	const collectionRef = collection(db, CollectionNames.USERS)
+
+	try {
+		const userQuery = query(collectionRef, where("id", "==", userId));
+        const userDocs = await getDocs(userQuery);
+
+        if (!userDocs.empty) {
+			// Exit if user already exists
+            return {}
+        }
+
+		const documentRef = await addDoc(collectionRef, {})
+
+		// TODO: Add support for additional roles here.
+		// username
+		const newUser: PFUser = {
+			id: documentRef.id, role: UserRoles.USER,
+			clerkId: userId,
+			firstName: '',
+			lastName: '',
+			username: ''
+		}
+		await updateDoc(documentRef, newUser); 
+
+		if (documentRef.id) {
+			return {}
+		} else {
+			console.error('Error', 'Could not create user')
+			return {}
+		}
+	} catch (e) {
+		console.error('e', e)
+	}
+}
+
+
+

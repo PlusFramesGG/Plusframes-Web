@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const beforeAuthMiddleware = (req: NextRequest) => {
 	// TODO: Wire up
+	return NextResponse.next(); 
 }
 
 export default authMiddleware({
@@ -12,9 +13,10 @@ export default authMiddleware({
 		// Execute next-intl middleware before Clerk's auth middleware
 		return beforeAuthMiddleware(req)
 	},
-	afterAuth(auth, req, evt) {
+	afterAuth: async (auth, req, evt) => {
 		// TODO: Remove before go live
 		if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
+			
 			if (!auth.userId && !auth.isPublicRoute) {
 				return redirectToSignIn({ returnBackUrl: req.url })
 			}

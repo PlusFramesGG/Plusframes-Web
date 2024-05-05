@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { currentUser } from '@clerk/nextjs'
+import { getAuth } from '@clerk/nextjs/server';
 import {
 	GeneralAPIResponses,
 	APIStatuses,
@@ -11,7 +11,7 @@ import {
 	UserRoles
 } from '@/shared/types'
 import firebase_app from '@/lib/firebase'
-import { getFirestore, collection, addDoc } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, query, where, getDocs } from 'firebase/firestore'
 
 // TODO: Wire this up in `afterAuth`
 const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
@@ -24,7 +24,7 @@ const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
 	}
 
 	try {
-		const user = await currentUser()
+		const user = getAuth(req);
 
 		if (!user) {
 			console.error('e', GeneralAPIResponses.UNAUTHORIZED)
@@ -34,6 +34,17 @@ const handler = async (req: NextApiRequest, res: TypedResponse<PFUser>) => {
 				data: { error: `Client is not authenticated.` }
 			})
 		}
+
+		const userQuery = query(collectionRef, where("id", "==", user.userId));
+        const userDocs = await getDocs(userQuery);
+
+        if (!userDocs.empty) {
+            return res.status(409).json({
+                status: APIStatuses.ERROR,
+                type: GeneralAPIResponses.DATA_ALREADY_EXISTS,
+                data: { error: "User already exists." }
+            });
+        }
 
 		const documentRef = await addDoc(collectionRef, body)
 
