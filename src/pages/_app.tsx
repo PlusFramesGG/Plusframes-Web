@@ -7,11 +7,6 @@ import App, { AppProps } from 'next/app'
 import { ReactElement, ReactNode } from 'react'
 import cookie from 'cookie'
 import { APIMethods, TypeOfPerson } from '@/shared/types'
-<<<<<<< HEAD
-import * as os from 'os';
-=======
-import { createUserIfNotExists } from '@/shared/utils'
->>>>>>> 1a9cfd3df48e8b76c01efa2569e218887103fbbe
 
 export type NextPageWithLayout<P = Record<string, any>, IP = P> = NextPage<P, IP> & {
 	getLayout?: (page: ReactElement) => ReactNode
